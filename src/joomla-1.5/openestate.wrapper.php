@@ -167,6 +167,7 @@ class OpenEstateWrapper {
     // determine the script to load
     $setup = null;
     $script = null;
+    $settings = array();
     $wrap = (isset($_REQUEST['wrap']) && is_string($_REQUEST['wrap'])) ?
         $_REQUEST['wrap'] : $defaultView;
     if ($wrap == 'expose') {
@@ -183,12 +184,15 @@ class OpenEstateWrapper {
       if (!isset($_REQUEST['wrap'])) {
         if ($params->get('lang', null) != null) {
           $_REQUEST[IMMOTOOL_PARAM_LANG] = $params->get('lang');
+          $settings['lang'] = $params->get('lang');
         }
         if ($params->get('id', null) != null) {
           $_REQUEST[IMMOTOOL_PARAM_EXPOSE_ID] = $params->get('id');
+          $settings['id'] = $params->get('id');
         }
         if ($params->get('view', null) != null) {
           $_REQUEST[IMMOTOOL_PARAM_EXPOSE_VIEW] = $params->get('view');
+          $settings['view'] = $params->get('view');
         }
       }
     }
@@ -207,15 +211,19 @@ class OpenEstateWrapper {
         $_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER_CLEAR] = '1';
         if ($params->get('lang', null) != null) {
           $_REQUEST[IMMOTOOL_PARAM_LANG] = $params->get('lang');
+          $settings['lang'] = $params->get('lang');
         }
         if ($params->get('view', null) != null) {
           $_REQUEST[IMMOTOOL_PARAM_INDEX_VIEW] = $params->get('view');
+          $settings['view'] = $params->get('view');
         }
         if ($params->get('mode', null) != null) {
           $_REQUEST[IMMOTOOL_PARAM_INDEX_MODE] = $params->get('mode');
+          $settings['mode'] = $params->get('mode');
         }
         if ($params->get('order', null) != null) {
           $_REQUEST[IMMOTOOL_PARAM_INDEX_ORDER] = $params->get('order');
+          $settings['order'] = $params->get('order');
         }
       }
 
@@ -230,17 +238,23 @@ class OpenEstateWrapper {
       if (!isset($_REQUEST['wrap']) || isset($_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER])) {
         $filters = OpenEstateWrapper::parseValuesFromTxt($params->get('filter'));
         if (is_array($filters)) {
+          $settings['filter'] = array();
           foreach ($filters as $filter => $value) {
             if (!isset($_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER]) || !is_array($_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER])) {
               $_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER] = array();
             }
             if (!isset($_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER][$filter])) {
               $_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER][$filter] = $value;
+              $settings['filter'][$filter] = $value;
             }
           }
         }
       }
     }
+
+    // keep wrapper settings in a global variable for further use
+    $settings['wrap'] = $wrap;
+    $GLOBALS['openestate_wrapper_settings'] = $settings;
 
     // execute the script
     //echo 'wrap: ' . IMMOTOOL_BASE_PATH . $script;
