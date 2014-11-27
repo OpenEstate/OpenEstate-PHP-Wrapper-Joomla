@@ -1,5 +1,5 @@
-OpenEstate-PHP-Wrapper for Joomla 0.1.7 / 0.2.7
-===============================================
+OpenEstate-PHP-Wrapper for Joomla 0.1.8 / 0.2.8 / 0.3.8
+=======================================================
 
 This extension integrates [OpenEstate-PHP-Export](https://github.com/OpenEstate/OpenEstate-PHP-Export)
 into a *Joomla* based website.
@@ -33,6 +33,11 @@ Webseite integriert werden.
 
 Changelog
 ---------
+
+### 0.1.8 / 0.2.8 / 0.3.8
+
+-   Version 0.3.8 is the first public release for Joomla 3.0 / Platform 12.1.
+-   Some smaller fixes
 
 ### 0.1.7 / 0.2.7
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+  <fields name="main">
+    <fieldset name="wrapper">
+      <field id="script_path" name="script_path"
+             type="text" size="100" maxLength="255"
+             label="COM_OPENESTATE_SCRIPT_PATH"
+             description="COM_OPENESTATE_SCRIPT_PATH_TEXT" />
+      <field id="script_url" name="script_url"
+             type="text" size="100" maxLength="255"
+             label="COM_OPENESTATE_SCRIPT_URL"
+             description="COM_OPENESTATE_SCRIPT_URL_TEXT" />
+    </fieldset>
+  </fields>
+</form>

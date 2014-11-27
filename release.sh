@@ -1,8 +1,9 @@
 #!/bin/bash
 
 NAME="com_openestate"
-VERSION15="0.1.7"
-VERSION25="0.2.7"
+VERSION15="0.1.8"
+VERSION25="0.2.8"
+VERSION30="0.3.8"
 PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 rm -Rf $PROJECT_DIR/release
@@ -13,3 +14,6 @@ zip -r $PROJECT_DIR/release/$NAME-$VERSION15.zip .
 
 cd $PROJECT_DIR/src/joomla-2.5
 zip -r $PROJECT_DIR/release/$NAME-$VERSION25.zip .
+
+cd $PROJECT_DIR/src/joomla-3.0
+zip -r $PROJECT_DIR/release/$NAME-$VERSION30.zip .

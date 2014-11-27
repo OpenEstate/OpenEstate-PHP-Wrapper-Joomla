@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+  <layout title="COM_OPENESTATE_LISTING_LAYOUT">
+    <message><![CDATA[COM_OPENESTATE_LISTING_LAYOUT_TEXT]]></message>
+  </layout>
+  <fields name="params" addfieldpath="/administrator/components/com_openestate/elements">
+    <fieldset name="listing" label="COM_OPENESTATE_LISTING_SETUP">
+      <field name="wrapper" type="spacer" label="COM_OPENESTATE_SETUP_WRAPPER" />
+      <field name="lang" type="language" label="COM_OPENESTATE_LANGUAGE" description="COM_OPENESTATE_LANGUAGE_TEXT" />
+      <field name="mode" type="list" default="entry" label="COM_OPENESTATE_MODE" description="COM_OPENESTATE_MODE_TEXT">
+        <option value="entry">COM_OPENESTATE_MODE_OPTION_ENTRY</option>
+        <option value="gallery">COM_OPENESTATE_MODE_OPTION_GALLERY</option>
+      </field>
+      <field name="view" type="list" default="index" label="COM_OPENESTATE_VIEW" description="COM_OPENESTATE_VIEW_TEXT">
+        <option value="index">COM_OPENESTATE_VIEW_OPTION_INDEX</option>
+        <option value="fav">COM_OPENESTATE_VIEW_OPTION_FAV</option>
+      </field>
+      <field name="order" type="order" default="id-desc" label="COM_OPENESTATE_ORDER" description="COM_OPENESTATE_ORDER_TEXT" />
+      <field name="filter" type="filter" label="COM_OPENESTATE_FILTERS" description="COM_OPENESTATE_FILTERS_TEXT" />
+      <field name="texts" type="spacer" label="COM_OPENESTATE_SETUP_TEXTS"/>
+      <field name="preText" type="textarea" filter="raw" label ="COM_OPENESTATE_TEXTS_PRE" description="COM_OPENESTATE_TEXTS_PRE_TEXT" rows="5" cols="50" width="500" />
+      <field name="postText" type="textarea" filter="raw" label ="COM_OPENESTATE_TEXTS_POST" description="COM_OPENESTATE_TEXTS_POST_TEXT" rows="5" cols="50" />
+    </fieldset>
+  </fields>
+</metadata>

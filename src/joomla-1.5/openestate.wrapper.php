@@ -1,11 +1,11 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: openestate.wrapper.php 1873 2012-10-24 20:29:04Z andy $
+ * $Id: openestate.wrapper.php 2053 2013-02-12 07:55:22Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
- * @copyright 2010-2012, OpenEstate.org
+ * @copyright 2010-2013, OpenEstate.org
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
@@ -72,7 +72,7 @@ class OpenEstateWrapper {
 
   function initEnvironment( $scriptPath, $doInclude=true ) {
     if (defined('IMMOTOOL_BASE_PATH')) return false;
-    $environmentFiles = array( 'config.php', 'include/functions.php', 'data/language.php' );
+    $environmentFiles = array( 'config.php', 'private.php', 'include/functions.php', 'data/language.php' );
     define('IMMOTOOL_BASE_PATH', $scriptPath);
     foreach ($environmentFiles as $file) {
       if (!is_file(IMMOTOOL_BASE_PATH.$file))
@@ -177,12 +177,14 @@ class OpenEstateWrapper {
       // vorgegebene Filter-Kriterien mit der Anfrage zusammenführen
       if (!isset($_REQUEST[ 'wrap' ]) || isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
         $filters = OpenEstateWrapper::parseValuesFromTxt( $params->get( 'filter' ) );
-        foreach ($filters as $filter=>$value) {
-          if (!isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ]) || !is_array($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
-            $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] = array();
-          }
-          if (!isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter])) {
-            $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter] = $value;
+        if (is_array($filters)) {
+          foreach ($filters as $filter=>$value) {
+            if (!isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ]) || !is_array($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
+              $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] = array();
+            }
+            if (!isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter])) {
+              $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter] = $value;
+            }
           }
         }
       }
