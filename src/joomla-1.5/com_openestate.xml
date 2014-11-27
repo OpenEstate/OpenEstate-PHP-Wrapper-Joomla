@@ -6,9 +6,9 @@
   <author>Andreas Rudolph, Walter Wagner</author>
   <authorEmail>info@openindex.de</authorEmail>
   <authorUrl>http://openestate.org</authorUrl>
-  <copyright>(C) 2010-2013 All rights reserved.</copyright>
+  <copyright>(C) 2010-2014 All rights reserved.</copyright>
   <license>GNU/GPL3</license>
-  <version>0.1.8</version>
+  <version>0.4-SNAPSHOT</version>
   <description><![CDATA[<h2>OpenEstate-PHP-Wrapper</h2><p>This component integrates PHP-exported properties from OpenEstate-ImmoTool into Joomla. You can find further informations at <a href="http://openestate.org" target="_blank">OpenEstate.org</a></p>]]></description>
 
   <!-- Site Main File Copy Section -->
