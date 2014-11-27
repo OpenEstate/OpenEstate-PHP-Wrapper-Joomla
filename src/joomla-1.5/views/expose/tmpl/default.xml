@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+  <layout title="EXPOSE_LAYOUT">
+    <message><![CDATA[EXPOSE_LAYOUT_TEXT]]></message>
+  </layout>
+  <state>
+    <name>EXPOSE_LAYOUT</name>
+    <description>EXPOSE_LAYOUT_TEXT</description>
+    <params addpath="/administrator/components/com_openestate/elements">
+      <param name="lang" type="language" label="LANGUAGE" description="LANGUAGE_TEXT" />
+      <param name="view" type="list" default="list" label="VIEW" description="VIEW_TEXT">
+        <option value="details" selected="selected">VIEW_OPTION_DETAILS</option>
+        <option value="texts">VIEW_OPTION_DESCRIPTION</option>
+        <option value="gallery">VIEW_OPTION_GALLERY</option>
+        <option value="contact">VIEW_OPTION_CONTACT</option>
+        <option value="terms">VIEW_OPTION_TERMS</option>
+      </param>
+      <param name="id" type="text" default="" label="PROPERTYID" description="PROPERTYID_TEXT" size="15" />
+    </params>
+  </state>
+</metadata>

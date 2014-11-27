@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="1.6.0" method="upgrade" client="site">
+  <name>COM_OPENESTATE</name>
+  <creationDate>January 2011</creationDate>
+  <author>Andreas Rudolph, Walter Wagner</author>
+  <authorEmail>info@openindex.de</authorEmail>
+  <authorUrl>http://openestate.org</authorUrl>
+  <copyright>(C) 2010 All rights reserved.</copyright>
+  <license>GNU/GPL3</license>
+  <version>0.2.0</version>
+  <description>COM_OPENESTATE_DESCRIPTION</description>
+  <updateservers>
+    <server type="extension" priority="1" name="openestate.org">http://wiki.openestate.org/mediawiki/images/9/9e/Joomla16_extension.xml</server>
+  </updateservers>
+
+  <!-- Site Main File Copy Section -->
+  <files folder="site">
+    <filename>index.html</filename>
+    <filename>controller.php</filename>
+    <filename>openestate.php</filename>
+    <filename>openestate.wrapper.php</filename>
+    <folder>views</folder>
+  </files>
+
+  <!-- Site Main Language File Copy Section -->
+  <languages>
+    <language tag="de-DE">language/site/de-DE.com_openestate.ini</language>
+    <language tag="en-GB">language/site/en-GB.com_openestate.ini</language>
+  </languages>
+
+  <administration>
+
+    <!-- Administration Menu Section -->
+    <menu img="components/com_openestate/images/openestate_icon-16.png">COM_OPENESTATE_MENU</menu>
+    <submenu>
+      <menu link="option=com_openestate&amp;task=wrapper"
+            img="components/com_openestate/images/blank_icon-16.png"
+            view="wrapper" alt="OpenEstate/Wrapper">COM_OPENESTATE_WRAPPER</menu>
+      <menu link="option=com_openestate&amp;task=about"
+            img="components/com_openestate/images/blank_icon-16.png"
+            view="about" alt="OpenEstate/About">COM_OPENESTATE_ABOUT</menu>
+    </submenu>
+
+    <!-- Administration Main File Copy Section -->
+    <files folder="admin">
+      <filename>index.html</filename>
+      <filename>admin.openestate.css</filename>
+      <filename>admin.openestate.php</filename>
+      <filename>admin.openestate.html.php</filename>
+      <filename>config.wrapper.xml</filename>
+      <filename>gpl-3.0-standalone.html</filename>
+      <folder>elements</folder>
+      <folder>images</folder>
+    </files>
+
+    <!-- Administration Main Language File Copy Section -->
+    <languages>
+      <language tag="de-DE">language/admin/de-DE.com_openestate.ini</language>
+      <language tag="de-DE">language/admin/de-DE.com_openestate.sys.ini</language>
+      <language tag="en-GB">language/admin/en-GB.com_openestate.ini</language>
+      <language tag="en-GB">language/admin/en-GB.com_openestate.sys.ini</language>
+    </languages>
+
+    <!-- Administration Main Media File Copy Section -->
+    <media folder="admin" destination="com_openestate/images">
+      <filename>images/blank_icon-16.png</filename>
+      <filename>images/openestate_icon-16.png</filename>
+      <filename>images/openestate_icon-32.png</filename>
+      <filename>images/openestate_icon-48.png</filename>
+      <filename>images/openestate_logo.png</filename>
+    </media>
+  </administration>
+</extension>
