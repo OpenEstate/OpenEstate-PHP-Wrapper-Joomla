@@ -1,4 +1,4 @@
-OpenEstate-PHP-Wrapper for Joomla 0.1.6 / 0.2.6
+OpenEstate-PHP-Wrapper for Joomla 0.1.7 / 0.2.7
 ===============================================
 
 This extension integrates [OpenEstate-PHP-Export](https://github.com/OpenEstate/OpenEstate-PHP-Export)
@@ -33,6 +33,12 @@ Webseite integriert werden.
 
 Changelog
 ---------
+
+### 0.1.7 / 0.2.7
+
+-   make use of meta elements, that were specified for the menu entry
+-   put the configured `$MetaDescriptionTexts` from `myconfig.php` into the meta
+    `description` element of property listing pages
 
 ### 0.1.6 / 0.2.6
 

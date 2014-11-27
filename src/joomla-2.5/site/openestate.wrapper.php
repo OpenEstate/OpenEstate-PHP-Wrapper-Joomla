@@ -1,13 +1,16 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: openestate.wrapper.php 1708 2012-08-15 15:00:41Z andy $
+ * $Id: openestate.wrapper.php 1872 2012-10-24 20:27:48Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
  * @copyright 2010-2012, OpenEstate.org
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
+
+//error_reporting( E_ALL );
+//ini_set('display_errors','1');
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -138,6 +141,11 @@ class OpenEstateWrapper {
   }
 
   function wrap( $defaultView, $scriptName, &$params, &$hiddenParams ) {
+    $document =& JFactory::getDocument();
+    $app =& JFactory::getApplication();
+    $menus = (is_object($app))? $app->getMenu(): null;
+    $menu = (is_object($menus))? $menus->getActive(): null;
+
     // Script ermitteln
     $wrap = (isset($_REQUEST['wrap']) && is_string($_REQUEST['wrap']))?
             $_REQUEST['wrap']: $defaultView;
@@ -186,7 +194,7 @@ class OpenEstateWrapper {
         $filters = OpenEstateWrapper::parseValuesFromTxt( $params->get( 'filter' ) );
         if (is_array($filters)) {
           foreach ($filters as $filter=>$value) {
-            if (!is_array($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
+            if (!isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ]) || !is_array($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
               $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] = array();
             }
             if (!isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter])) {
@@ -205,23 +213,38 @@ class OpenEstateWrapper {
     //ob_clean();
     ob_end_clean();
 
-    // Stylesheets
-    $setup = new immotool_setup();
-    if (is_callable(array('immotool_myconfig', 'load_config_default'))) immotool_myconfig::load_config_default( $setup );
-    $stylesheets = array( IMMOTOOL_BASE_URL . 'style.php' );
-    if (is_string($setup->AdditionalStylesheet) && strlen($setup->AdditionalStylesheet)>0)
-      $stylesheets[] = $setup->AdditionalStylesheet;
+    // Konfiguration ermitteln
+    $setup = null;
+    if ($wrap=='expose') {
+      $setup = new immotool_setup_expose();
+      if (is_callable(array('immotool_myconfig', 'load_config_expose'))) immotool_myconfig::load_config_expose( $setup );
+    }
+    else {
+      $setup = new immotool_setup_index();
+      if (is_callable(array('immotool_myconfig', 'load_config_index'))) immotool_myconfig::load_config_index( $setup );
+    }
 
     // Nachträgliche Bearbeitung am Dokument
-    $document = &JFactory::getDocument();
     $lang = (isset($_REQUEST[ IMMOTOOL_PARAM_LANG ]))? $_REQUEST[ IMMOTOOL_PARAM_LANG ]: $params->get( 'lang' );
     if (is_string($lang)) {
       $document->setLanguage( $lang );
       $document->setMetaData( 'language', $lang );
     }
+
+    // Stylesheets registrieren
+    $stylesheets = array( IMMOTOOL_BASE_URL . 'style.php?wrapped=1' );
+    if (is_string($setup->AdditionalStylesheet) && strlen($setup->AdditionalStylesheet)>0) {
+      $stylesheets[] = $setup->AdditionalStylesheet;
+    }
     foreach ($stylesheets as $stylesheet) {
       $document->addStyleSheet( $stylesheet );
     }
+
+    // Meta-Description des Menü-Eintrages ermitteln
+    $metaDescription = (is_object($menu))? $menu->params->get('menu-meta_description'): null;
+
+    // Meta-Keywords des Menü-Eintrages ermitteln
+    $metaKeywords = (is_object($menu))? $menu->params->get('menu-meta_keywords'): null;
 
     // Nachträgliche Bearbeitung am Dokument, Exposéansicht
     if ($wrap=='expose') {
@@ -230,7 +253,7 @@ class OpenEstateWrapper {
       $exposeTxt = (is_string($exposeId))? immotool_functions::get_text( $exposeId ): null;
       if (is_array($exposeObj)) {
 
-        // Titel aus Immobilie übernehmen
+        // Titel der Immobilie ins Dokument übernehmen
         $title = (is_string($lang) && isset($exposeObj['title'][$lang]))? $exposeObj['title'][$lang]: null;
         if (is_string($title)) {
           $title = trim( strip_tags( html_entity_decode( $title, ENT_NOQUOTES, $setup->Charset ) ) );
@@ -240,22 +263,35 @@ class OpenEstateWrapper {
       if (is_array($exposeTxt)) {
 
         // Keywords aus Immobilie übernehmen
-        $keywords = (is_string($lang) && isset($exposeTxt['keywords'][$lang]))? $exposeTxt['keywords'][$lang]: null;
-        if (is_string($keywords)) {
-          $keywords = trim( strip_tags( html_entity_decode( $keywords, ENT_NOQUOTES, $setup->Charset ) ) );
-          $document->setMetaData( 'keywords', $keywords );
+        $txt = (is_string($lang) && isset($exposeTxt['keywords'][$lang]))? $exposeTxt['keywords'][$lang]: null;
+        if (is_string($txt)) {
+          $metaKeywords = trim( strip_tags( html_entity_decode( $txt, ENT_NOQUOTES, $setup->Charset ) ) );
         }
 
         // Description aus Immobilie übernehmen
-        $description = (is_string($lang) && isset($exposeTxt['short_description'][$lang]))? $exposeTxt['short_description'][$lang]: null;
-        if (is_null($description)) {
-          $description = (is_string($lang) && isset($exposeTxt['kurz_beschr'][$lang]))? $exposeTxt['kurz_beschr'][$lang]: null;
-        }
-        if (is_string($description)) {
-          $description = trim( strip_tags( html_entity_decode( $description, ENT_NOQUOTES, $setup->Charset ) ) );
-          $document->setMetaData( 'description', $description );
+        if (is_array($setup->MetaDescriptionTexts)) {
+          foreach ($setup->MetaDescriptionTexts as $attrib) {
+            $txt = (isset($objectTexts[$attrib][$lang])) ? $objectTexts[$attrib][$lang] : null;
+            if (is_string($txt) && strlen(trim($txt))>0) {
+              $metaDescription = trim( strip_tags( html_entity_decode( $txt, ENT_NOQUOTES, $setup->Charset ) ) );
+              break;
+            }
+            else {
+              $txt = null;
+            }
+          }
         }
       }
+    }
+
+    // Meta-Description ggf. ins Dokument übernehmen
+    if (is_string($metaDescription) && strlen(trim($metaDescription))>0) {
+      $document->setMetaData( 'description', trim($metaDescription) );
+    }
+
+    // Meta-Keywords ggf. ins Dokument übernehmen
+    if (is_string($metaKeywords) && strlen(trim($metaKeywords))>0) {
+      $document->setMetaData( 'keywords', trim($metaKeywords) );
     }
 
     // Ausgabe erzeugen
