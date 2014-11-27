@@ -165,7 +165,6 @@ class OpenEstateWrapper {
     $document = & JFactory::getDocument();
 
     // determine the script to load
-    $setup = null;
     $script = null;
     $settings = array();
     $wrap = (isset($_REQUEST['wrap']) && is_string($_REQUEST['wrap'])) ?
@@ -173,12 +172,6 @@ class OpenEstateWrapper {
     if ($wrap == 'expose') {
       $wrap = 'expose';
       $script = 'expose.php';
-
-      // load configuration
-      $setup = new immotool_setup_expose();
-      if (is_callable(array('immotool_myconfig', 'load_config_expose'))) {
-        immotool_myconfig::load_config_expose($setup);
-      }
 
       // set default configuration values on the first request of the page
       if (!isset($_REQUEST['wrap'])) {
@@ -199,12 +192,6 @@ class OpenEstateWrapper {
     else {
       $wrap = 'index';
       $script = 'index.php';
-
-      // load configuration
-      $setup = new immotool_setup_index();
-      if (is_callable(array('immotool_myconfig', 'load_config_index'))) {
-        immotool_myconfig::load_config_index($setup);
-      }
 
       // set default configuration values on the first request of the page
       if (!isset($_REQUEST['wrap'])) {
@@ -262,6 +249,21 @@ class OpenEstateWrapper {
     include( IMMOTOOL_BASE_PATH . $script );
     $page = ob_get_contents();
     ob_end_clean();
+
+    // load configuration
+    $setup = null;
+    if ($wrap == 'expose') {
+      $setup = new immotool_setup_expose();
+      if (is_callable(array('immotool_myconfig', 'load_config_expose'))) {
+        immotool_myconfig::load_config_expose($setup);
+      }
+    }
+    else {
+      $setup = new immotool_setup_index();
+      if (is_callable(array('immotool_myconfig', 'load_config_index'))) {
+        immotool_myconfig::load_config_index($setup);
+      }
+    }
 
     // make some modifications to the current document
     $lang = (isset($_REQUEST[IMMOTOOL_PARAM_LANG])) ? $_REQUEST[IMMOTOOL_PARAM_LANG] : $params->get('lang');
