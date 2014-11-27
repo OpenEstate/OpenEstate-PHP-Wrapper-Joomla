@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="1.6.0" method="upgrade" client="site">
   <name>COM_OPENESTATE</name>
-  <creationDate>February 2013</creationDate>
+  <creationDate>November 2014</creationDate>
   <author>Andreas Rudolph, Walter Wagner</author>
   <authorEmail>info@openindex.de</authorEmail>
   <authorUrl>http://openestate.org</authorUrl>
   <copyright>(C) 2010-2014 All rights reserved.</copyright>
   <license>GNU/GPL3</license>
-  <version>0.4-SNAPSHOT</version>
+  <version>0.4</version>
   <description>COM_OPENESTATE_DESCRIPTION</description>
   <updateservers>
     <server type="extension" priority="1" name="github.com">https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla/raw/master/updates.xml</server>
