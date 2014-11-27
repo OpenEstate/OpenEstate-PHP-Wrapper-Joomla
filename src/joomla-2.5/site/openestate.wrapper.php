@@ -1,7 +1,7 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: openestate.wrapper.php 1344 2012-01-29 14:02:47Z andy $
+ * $Id: openestate.wrapper.php 1618 2012-07-03 08:12:06Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
@@ -142,20 +142,10 @@ class OpenEstateWrapper {
     if ($wrap=='expose') {
       $wrap = 'expose';
       $script = 'expose.php';
+      //return '<pre>' . print_r($_REQUEST, true) . '</pre>';
 
-      // Standard-Parameter ggf. setzen
-      //echo '<pre>';
-      //print_r($_REQUEST);
-      //echo '</pre>';
-      $wrapParams = array( 'wrap', IMMOTOOL_PARAM_LANG, IMMOTOOL_PARAM_EXPOSE_ID, IMMOTOOL_PARAM_EXPOSE_VIEW );
-      $useDefaultParams = true;
-      foreach ($wrapParams as $param) {
-        if (isset($_REQUEST[ $param ])) {
-          $useDefaultParams = false;
-          break;
-        }
-      }
-      if ($useDefaultParams) {
+      // Standard-Konfigurationswerte beim ersten Aufruf setzen
+      if (!isset($_REQUEST[ 'wrap' ])) {
         if ($params->get( 'lang', null )!=null)
           $_REQUEST[ IMMOTOOL_PARAM_LANG ] = $params->get( 'lang' );
         if ($params->get( 'id', null )!=null)
@@ -167,20 +157,10 @@ class OpenEstateWrapper {
     else {
       $wrap = 'index';
       $script = 'index.php';
+      //return '<pre>' . print_r($_REQUEST, true) . '</pre>';
 
-      // Standard-Parameter ggf. setzen
-      //echo '<pre>';
-      //print_r($_REQUEST);
-      //echo '</pre>';
-      $wrapParams = array( 'wrap', IMMOTOOL_PARAM_LANG, IMMOTOOL_PARAM_INDEX_VIEW, IMMOTOOL_PARAM_INDEX_MODE, IMMOTOOL_PARAM_INDEX_ORDER, IMMOTOOL_PARAM_INDEX_FILTER );
-      $useDefaultParams = true;
-      foreach ($wrapParams as $param) {
-        if (isset($_REQUEST[ $param ])) {
-          $useDefaultParams = false;
-          break;
-        }
-      }
-      if ($useDefaultParams) {
+      // Standard-Konfigurationswerte beim ersten Aufruf setzen
+      if (!isset($_REQUEST[ 'wrap' ])) {
         $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER_CLEAR ] = '1';
         if ($params->get( 'lang', null )!=null)
           $_REQUEST[ IMMOTOOL_PARAM_LANG ] = $params->get( 'lang' );
@@ -190,12 +170,25 @@ class OpenEstateWrapper {
           $_REQUEST[ IMMOTOOL_PARAM_INDEX_MODE ] = $params->get( 'mode' );
         if ($params->get( 'order', null )!=null)
           $_REQUEST[ IMMOTOOL_PARAM_INDEX_ORDER ] = $params->get( 'order' );
+      }
 
+      // Zurücksetzen der gewählten Filter
+      if (isset($_REQUEST[IMMOTOOL_PARAM_INDEX_RESET])) {
+        unset($_REQUEST[IMMOTOOL_PARAM_INDEX_RESET]);
+        $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] = array();
+        $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER_CLEAR ] = '1';
+      }
+
+      // vorgegebene Filter-Kriterien mit der Anfrage zusammenführen
+      if (!isset($_REQUEST[ 'wrap' ]) || isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
         $filters = OpenEstateWrapper::parseValuesFromTxt( $params->get( 'filter' ) );
         foreach ($filters as $filter=>$value) {
-          if (!is_array($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ]))
+          if (!is_array($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ])) {
             $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ] = array();
-          $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter] = $value;
+          }
+          if (!isset($_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter])) {
+            $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER ][$filter] = $value;
+          }
         }
       }
     }
