@@ -35,7 +35,7 @@ class JFormFieldFilter extends JFormField {
 
   protected function getInput() {
 
-    // Skript-Umgebung ggf. einbinden
+    // load script environment
     if (!defined('IMMOTOOL_BASE_PATH')) {
       $parameters = OpenEstateWrapper::getParameters();
       if ($parameters == null) {
@@ -50,38 +50,36 @@ class JFormFieldFilter extends JFormField {
         return $result;
       }
     }
-
-    // Konfiguration der Immobilienansicht des PHP-Exportes ermitteln
     $setup = new immotool_setup_index();
     immotool_functions::init($setup, 'load_config_index');
 
-    // Übersetzungen ermitteln
+    // load translations
     $translations = array();
     $jLang = &JFactory::getLanguage();
     $lang = OpenEstateWrapper::loadTranslations($jLang->getTag(), $translations);
 
-    // Filter-Werte ermitteln
+    // get current filter values
     $values = OpenEstateWrapper::parseValuesFromTxt($this->value);
     //echo '<pre>'; print_r( $values ); echo '</pre>';
-    // Widgets der vorhandenen Filter erzeugen
+
+    // show widgets for any available filter
     $filterIds = array();
     $output = '<table style="float:left;" cellpadding="0" cellspacing="0">';
     foreach (immotool_functions::list_available_filters() as $key) {
       $filterObj = immotool_functions::get_filter($key);
       if (!is_object($filterObj)) {
-        //echo "Filter-Objekt $key nicht gefunden<hr/>";
+        //echo "Can't find filter object $key<hr/>";
         continue;
       }
       $filterValue = (isset($values[$key])) ? $values[$key] : '';
       $filterWidget = $filterObj->getWidget($filterValue, $lang, $translations, $setup);
       if (!is_string($filterWidget) || strlen($filterWidget) == 0) {
-        //echo "Filter-Widget $key nicht erzeugt<hr/>";
+        //echo "Can't create widget for filter object $key<hr/>";
         continue;
       }
       $filterWidget = str_replace('<select ', '<select onchange="build_tag();" ', $filterWidget);
       $filterWidget = str_replace('<input ', '<input onchange="build_tag();" ', $filterWidget);
       $filterWidget = str_replace('<label ', '<label style="display:inline; clear:none;" ', $filterWidget);
-      //$filterWidget = str_replace( '</label>', '</span>', $filterWidget );
       $output .= '<tr>';
       $output .= '<td style="padding-bottom:4px;">' . $filterWidget . '</td>';
       $output .= '</tr>';

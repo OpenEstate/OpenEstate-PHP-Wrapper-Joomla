@@ -26,30 +26,31 @@ class OpenestateViewWrapper extends JViewLegacy {
     require_once( JPATH_COMPONENT . '/helpers/openestate.php' );
     require_once( JPATH_ROOT . '/components/com_openestate/openestate.wrapper.php' );
 
-    // Parameter der Komponente ermitteln
+    // get component settings
     $params = OpenEstateWrapper::getParameters();
-    //$params = JComponentHelper::getParams('com_openestate')->toArray();
-    // allgemeine Komponenten
+
+    // build general components
     OpenestateHelper::addTitle('wrapper');
     $this->sidebar = OpenestateHelper::buildSidebar('wrapper');
     $this->infobar = OpenestateHelper::buildInfobar('wrapper');
 
-    // Formular zur Einbindung der Skript-Umgebung verarbeiten
+    // get entry in extension table
+    $table = &JTable::getInstance('extension');
+    if (!$table->load(array('name' => 'com_openestate'))) {
+      JError::raiseWarning(500, 'Not a valid component');
+      return false;
+    }
+    //echo '<pre>'; print_r( $table ); echo '</pre>';
+
+    // process form for script configuration
     if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
-
-      // Eintrag in der Komponenten-Tabelle
-      $table = &JTable::getInstance('extension');
-      if (!$table->load(array('name' => 'com_openestate'))) {
-        JError::raiseWarning(500, 'Not a valid component');
-        return false;
-      }
-
       $post = JRequest::get('post');
       if (!is_array($post)) {
         $post = array();
       }
-      //echo 'POST:<pre>' . print_r( $params, true ) . '</pre>';
-      // Pfad muss ein '/' am Ende haben
+      //echo '<pre>'; print_r( $post ); echo '</pre>';
+
+      // script path must end with a /
       $scriptPath = (isset($post['main']['script_path'])) ? $post['main']['script_path'] : '';
       $len = strlen($scriptPath);
       if ($len > 0 && $scriptPath[$len - 1] != '/') {
@@ -57,7 +58,7 @@ class OpenestateViewWrapper extends JViewLegacy {
       }
       $params['script_path'] = $scriptPath;
 
-      // URL muss ein '/' am Ende haben
+      // script URL must end with a /
       $scriptUrl = (isset($post['main']['script_url'])) ? $post['main']['script_url'] : '';
       $len = strlen($scriptUrl);
       if ($len > 0 && $scriptUrl[$len - 1] != '/') {
@@ -65,37 +66,38 @@ class OpenestateViewWrapper extends JViewLegacy {
       }
       $params['script_url'] = $scriptUrl;
 
+      // bind parameters to table
       if (!isset($table->params) || !is_array($table->params)) {
         $table->params = array();
       }
       $table->bind(array('params' => $params));
 
-      // Pre-save checks
+      // pre-save checks
       if (!$table->check()) {
-        die('CHECK FAILED!!!');
+        //die('CHECK FAILED!!!');
         JError::raiseWarning(500, $table->getError());
         return false;
       }
-      // Save the changes
+
+      // save the changes
       if (!$table->store()) {
-        die('STORE FAILED!!!');
+        //die('STORE FAILED!!!');
         JError::raiseWarning(500, $table->getError());
         return false;
       }
     }
 
-    //echo 'PARAMS:<pre>' . print_r( $params, true ) . '</pre>';
-
-    // Formular mit aktueller Konfiguration erzeugen
+    // build form for script configuration
     $this->form = &JForm::getInstance('wrapper', JPATH_COMPONENT_ADMINISTRATOR . '/form.wrapper.xml');
+    //echo '<pre>' . print_r( $params, true ) . '</pre>';
     foreach ($params as $key => $value) {
       $this->form->setValue($key, 'main', $value);
     }
 
-    // Prüfung der Eingaben
+    // check configuration
     $this->errors = array();
 
-    // Prüfung der Eingaben, Pfad
+    // check configuration of script path
     $translations = null;
     $scriptPath = OpenEstateWrapper::getScriptPath($params);
     if (!is_string($scriptPath) || strlen(trim($scriptPath)) == 0) {
@@ -105,8 +107,8 @@ class OpenestateViewWrapper extends JViewLegacy {
       $this->errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_PATH_INVALID');
     }
     else {
-      // ImmoTool-Umgebung einbinden
-      $environmentFiles = array('config.php', 'include/functions.php', 'data/language.php');
+      // load script environment
+      $environmentFiles = array('config.php', 'private.php', 'include/functions.php', 'data/language.php');
       define('IMMOTOOL_BASE_PATH', $scriptPath);
       foreach ($environmentFiles as $file) {
         if (!is_file(IMMOTOOL_BASE_PATH . $file)) {
@@ -123,7 +125,7 @@ class OpenestateViewWrapper extends JViewLegacy {
           $this->errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_CANT_LOAD_VERSION');
         }
 
-        // Übersetzungen ermitteln
+        // load translations
         $translations = array();
         $jLang = &JFactory::getLanguage();
         $lang = OpenEstateWrapper::loadTranslations($jLang->getTag(), $translations);
@@ -133,7 +135,7 @@ class OpenestateViewWrapper extends JViewLegacy {
       }
     }
 
-    // Prüfung der Eingaben, URL
+    // check configuration of script URL
     $scriptUrl = OpenEstateWrapper::getScriptUrl($params);
     if (!is_string($scriptUrl) || strlen(trim($scriptUrl)) == 0) {
       $this->errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_URL_EMPTY');
@@ -142,7 +144,7 @@ class OpenestateViewWrapper extends JViewLegacy {
       $this->errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_URL_INVALID');
     }
 
-    // Template rendern
+    // render page
     parent::display($tpl);
   }
 

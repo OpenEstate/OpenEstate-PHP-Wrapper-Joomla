@@ -19,10 +19,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// Require the base controller
+// require the base controller
 require_once( JPATH_COMPONENT . DS . 'controller.php' );
 
-// Require specific controller if requested
+// require specific controller if requested
 $controller = JRequest::getWord('controller');
 if ($controller != null) {
   $path = JPATH_COMPONENT . DS . 'controllers' . DS . $controller . '.php';
@@ -34,12 +34,12 @@ if ($controller != null) {
   }
 }
 
-// Create the controller
+// create the controller
 $classname = 'OpenEstateController' . $controller;
 $controllerInstance = new $classname( );
 
-// Perform the Request task
+// perform the requested task
 $controllerInstance->execute(JRequest::getVar('task'));
 
-// Redirect if set by the controller
+// redirect if set by the controller
 $controllerInstance->redirect();

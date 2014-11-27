@@ -19,21 +19,21 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// Load the html class
+// load the html class
 require_once( JApplicationHelper::getPath('admin_html') );
 
-// Register CSS
+// register CSS
 $uri = &JFactory::getURI();
 $css = $uri->root() . 'administrator' . DS . 'components' . DS . 'com_openestate' . DS . 'admin.openestate.css';
-
 $document = &JFactory::getDocument();
 $document->addStyleSheet($css, 'text/css', null, array());
 
-// Load joomla log system
+// load joomla log system
 //jimport( 'joomla.utilities.log' );
 //$log = & JLog::getInstance();
 //$log->addEntry(array("level" => 0,"status"=> 1, "comment" => "openestate :".$ret));
 
+// process task
 $t = JRequest::getVar('task', '');
 switch ($t) {
   case 'about':

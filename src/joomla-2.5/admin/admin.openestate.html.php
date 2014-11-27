@@ -29,6 +29,7 @@ class OpenEstateViews {
     echo '<a href="http://openestate.org" target="_blank"><img src="./components/com_openestate/images/openestate_logo.png" alt="OpenEstate.org" title="OpenEstate.org" border="0" /></a>';
 
     echo '<div style="margin-top:2em; text-align:right;">';
+
     // PayPal (german)
     if (strtolower($lang[0]) == 'de') {
       echo '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">';
@@ -38,6 +39,7 @@ class OpenEstateViews {
       echo '<img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1">';
       echo '</form>';
     }
+
     // PayPal (english)
     else {
       echo '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">';
@@ -94,7 +96,7 @@ class OpenEstateViews {
     echo '<p>' . JText::sprintf('COM_OPENESTATE_WRAPPER_INFO', 'http://wiki.openestate.org/Kategorie:ImmoTool_PHP-Export') . '</p>';
     echo '<h3>' . JText::_('COM_OPENESTATE_WRAPPER_SETUP') . '</h3>';
 
-    // Eintrag in der Komponenten-Tabelle
+    // get entry in extension table
     $table = &JTable::getInstance('extension');
     //if (!$table->load(array('name'=>'openestate'))) {
     if (!$table->load(array('name' => 'com_openestate'))) {
@@ -102,49 +104,54 @@ class OpenEstateViews {
       return false;
     }
     //echo '<pre>'; print_r( $table ); echo '</pre>';
-    // Formular zur Einbindung der Skript-Umgebung verarbeiten
-    if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
 
+    // process form for script configuration
+    if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
       $post = JRequest::get('post');
+      if (!is_array($post)) {
+        $post = array();
+      }
       //echo '<pre>'; print_r( $post ); echo '</pre>';
-      // Pfad muss ein '/' am Ende haben
+
+      // script path must end with a /
       $value = $post['params']['script_path'];
       $len = strlen($value);
       if ($len > 0 && $value[$len - 1] != '/') {
         $post['params']['script_path'] .= '/';
       }
 
-      // URL muss ein '/' am Ende haben
+      // script URL must end with a /
       $value = $post['params']['script_url'];
       $len = strlen($value);
       if ($len > 0 && $value[$len - 1] != '/') {
         $post['params']['script_url'] .= '/';
       }
 
+      // bind parameters to table
       $table->bind($post);
-      //-- Pre-save checks
+
+      // pre-save checks
       if (!$table->check()) {
-        die('CHECK FAILED!!!');
+        //die('CHECK FAILED!!!');
         JError::raiseWarning(500, $table->getError());
         return false;
       }
-      //-- Save the changes
+
+      // save the changes
       if (!$table->store()) {
-        die('STORE FAILED!!!');
+        //die('STORE FAILED!!!');
         JError::raiseWarning(500, $table->getError());
         return false;
       }
     }
 
-    // Formular zur Einbindung der Skript-Umgebung erzeugen
+    // build form for script configuration
     echo '<form action="index.php" method="post">';
     $parameters = new JParameter($table->params, JPATH_COMPONENT_ADMINISTRATOR . DS . 'config.wrapper.xml');
     $groups = $parameters->getGroups();
     echo '<table>';
     foreach (array_keys($groups) as $group) {
       //echo '<p>'.$group.'</p>';
-      //echo $parameters->render('params', $group);
-
       $fields = $parameters->renderToArray('params', $group);
       //echo '<pre>'; print_r( $fields ); echo '</pre>';
       foreach ($fields as $field) {
@@ -160,10 +167,10 @@ class OpenEstateViews {
     echo '<input type="submit" value="' . JText::_('COM_OPENESTATE_WRAPPER_SUBMIT') . '" style="margin-left:15em; margin-top:1em;" />';
     echo '</form>';
 
-    // Prüfung der Eingaben
+    // check configuration
     $errors = array();
 
-    // Prüfung der Eingaben, Pfad
+    // check configuration of script path
     $translations = null;
     $scriptPath = OpenEstateWrapper::getScriptPath($parameters);
     if (!is_string($scriptPath) || strlen(trim($scriptPath)) == 0) {
@@ -173,8 +180,8 @@ class OpenEstateViews {
       $errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_PATH_INVALID');
     }
     else {
-      // ImmoTool-Umgebung einbinden
-      $environmentFiles = array('config.php', 'include/functions.php', 'data/language.php');
+      // load script environment
+      $environmentFiles = array('config.php', 'private.php', 'include/functions.php', 'data/language.php');
       define('IMMOTOOL_BASE_PATH', $scriptPath);
       foreach ($environmentFiles as $file) {
         if (!is_file(IMMOTOOL_BASE_PATH . $file)) {
@@ -191,7 +198,7 @@ class OpenEstateViews {
           $errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_CANT_LOAD_VERSION');
         }
 
-        // Übersetzungen ermitteln
+        // load translations
         $translations = array();
         $jLang = &JFactory::getLanguage();
         $lang = OpenEstateWrapper::loadTranslations($jLang->getTag(), $translations);
@@ -201,7 +208,7 @@ class OpenEstateViews {
       }
     }
 
-    // Prüfung der Eingaben, URL
+    // check configuration of script URL
     $scriptUrl = OpenEstateWrapper::getScriptUrl($parameters);
     if (!is_string($scriptUrl) || strlen(trim($scriptUrl)) == 0) {
       $errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_URL_EMPTY');
@@ -210,6 +217,7 @@ class OpenEstateViews {
       $errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_URL_INVALID');
     }
 
+    // show validation messages
     if (count($errors) > 0) {
       echo '<h3 style="color:red;">' . JText::_('COM_OPENESTATE_WRAPPER_ERROR') . '</h3>';
       echo '<ul>';

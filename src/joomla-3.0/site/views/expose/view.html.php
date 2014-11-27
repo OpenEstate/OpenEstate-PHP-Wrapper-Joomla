@@ -37,7 +37,7 @@ class OpenestateViewExpose extends JViewLegacy {
     $scriptPath = OpenEstateWrapper::getScriptPath($parameters);
     $scriptUrl = OpenEstateWrapper::getScriptUrl($parameters);
 
-    // Skript-Umgebung ggf. einbinden
+    // load script environment
     if (!defined('IMMOTOOL_BASE_URL')) {
       define('IMMOTOOL_BASE_URL', $scriptUrl);
     }
@@ -69,7 +69,7 @@ class OpenestateViewExpose extends JViewLegacy {
       return;
     }
 
-    // Konfiguration des Menü-Eintrages ermitteln
+    // load configuration of the current menu entry
     $view = JRequest::getString('view');
     $itemId = JRequest::getInt('Itemid');
     $lang = JRequest::getString('lang');
@@ -84,8 +84,9 @@ class OpenestateViewExpose extends JViewLegacy {
       parent::display($tpl);
       return;
     }
-    //echo '<pre>'; print_r( $menuparams ); echo '</pre>';
-    // Ausgabe erzeugen
+    //echo '<pre>' . print_r($menuParams, true) . '</pre>';
+
+    // build output
     $baseUrl = null;
     $hiddenParams = array();
     $app = & JFactory::getApplication();

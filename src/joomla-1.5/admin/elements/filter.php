@@ -32,7 +32,7 @@ class JElementFilter extends JElement {
 
   function fetchElement($name, $value, &$node, $control_name) {
 
-    // Skript-Umgebung ggf. einbinden
+    // load script environment
     if (!defined('IMMOTOOL_BASE_PATH')) {
       $parameters = OpenEstateWrapper::getParameters();
       if ($parameters == null) {
@@ -48,26 +48,27 @@ class JElementFilter extends JElement {
       }
     }
 
-    // Übersetzungen ermitteln
+    // load translations
     $translations = array();
     $jLang = &JFactory::getLanguage();
     $lang = OpenEstateWrapper::loadTranslations($jLang->getTag(), $translations);
 
-    // Filter-Werte ermitteln
+    // get current filter values
     $values = OpenEstateWrapper::parseValuesFromTxt($value);
     //echo '<pre>'; print_r( $values ); echo '</pre>';
-    // Widgets der vorhandenen Filter erzeugen
+
+    // show widgets for any available filter
     $filterIds = array();
     foreach (immotool_functions::list_available_filters() as $key) {
       $filterObj = immotool_functions::get_filter($key);
       if (!is_object($filterObj)) {
-        //echo "Filter-Objekt $key nicht gefunden<hr/>";
+        //echo "Can't find filter object $key<hr/>";
         continue;
       }
       $filterValue = (isset($values[$key])) ? $values[$key] : '';
       $filterWidget = $filterObj->getWidget($filterValue, $lang, $translations, $setupIndex);
       if (!is_string($filterWidget) || strlen($filterWidget) == 0) {
-        //echo "Filter-Widget $key nicht erzeugt<hr/>";
+        //echo "Can't create widget for filter object $key<hr/>";
         continue;
       }
       $filterWidget = str_replace('<select ', '<select onchange="build_tag();" ', $filterWidget);

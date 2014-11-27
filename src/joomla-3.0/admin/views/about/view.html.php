@@ -24,12 +24,12 @@ class OpenestateViewAbout extends JViewLegacy {
   function display($tpl = null) {
     require_once( JPATH_COMPONENT . '/helpers/openestate.php' );
 
-    // allgemeine Komponenten
+    // build general components
     OpenestateHelper::addTitle('about');
     $this->sidebar = OpenestateHelper::buildSidebar('about');
     $this->infobar = OpenestateHelper::buildInfobar('about');
 
-    // Template rendern
+    // render page
     parent::display($tpl);
   }
 

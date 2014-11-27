@@ -39,6 +39,7 @@ Changelog
 *not released yet*
 
 -   use same plugin version for the different Joomla packages
+-   translated any source code comments into English
 -   made some syntax fixes
 
 

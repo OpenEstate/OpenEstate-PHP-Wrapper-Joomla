@@ -32,7 +32,7 @@ class JElementLanguage extends JElement {
 
   function fetchElement($name, $value, &$node, $control_name) {
 
-    // Skript-Umgebung ggf. einbinden
+    // load script environment
     if (!defined('IMMOTOOL_BASE_PATH')) {
       $parameters = OpenEstateWrapper::getParameters();
       if ($parameters == null) {
@@ -48,6 +48,7 @@ class JElementLanguage extends JElement {
       }
     }
 
+    // build widget for language selection
     $class = $node->attributes('class') ? $node->attributes('class') : 'inputbox';
     $output = '<select id="' . $control_name . '[' . $name . ']"' . '" name="' . $control_name . '[' . $name . ']"' . '" class="' . $class . '">';
     foreach (immotool_functions::get_language_codes() as $code) {

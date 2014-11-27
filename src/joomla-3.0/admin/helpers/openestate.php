@@ -43,6 +43,7 @@ class OpenestateHelper {
     $bar .= '<a href="http://openestate.org" target="_blank"><img src="./components/com_openestate/images/openestate_logo.png" alt="OpenEstate.org" title="OpenEstate.org" border="0" /></a>';
 
     $bar .= '<div style="margin-top:2em; text-align:right;">';
+
     // PayPal (german)
     if (strtolower($lang[0]) == 'de') {
       $bar .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">';
@@ -52,6 +53,7 @@ class OpenestateHelper {
       $bar .= '<img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1">';
       $bar .= '</form>';
     }
+
     // PayPal (english)
     else {
       $bar .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">';

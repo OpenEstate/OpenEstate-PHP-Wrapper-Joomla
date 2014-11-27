@@ -22,9 +22,7 @@ defined('_JEXEC') or die('Restricted access');
 //error_reporting( E_ALL );
 //ini_set('display_errors','1');
 
-/**
- * Definition der zu verwendenden Parameter.
- */
+// define name of URL parameters for the wrapped scripts
 if (!defined('IMMOTOOL_PARAM_LANG')) {
   define('IMMOTOOL_PARAM_LANG', 'wrapped_lang');
 }
@@ -79,7 +77,8 @@ class OpenEstateWrapper {
       JError::raiseWarning(500, 'Not a valid component');
       return null;
     }
-    return new JParameter($table->params, JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_openestate' . DS . 'config.wrapper.xml');
+    return new JParameter(
+        $table->params, JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_openestate' . DS . 'config.wrapper.xml');
   }
 
   function getScriptPath(&$params) {
@@ -161,19 +160,26 @@ class OpenEstateWrapper {
   }
 
   function wrap($defaultView, $scriptName, &$params, &$hiddenParams) {
-    $document = & JFactory::getDocument();
-
     //return '<pre>' . print_r($_REQUEST, true) . '</pre>';
     //return '<pre>' . print_r($_SERVER, true) . '</pre>';
+    $document = & JFactory::getDocument();
 
-    // Script ermitteln
+    // determine the script to load
+    $setup = null;
+    $script = null;
     $wrap = (isset($_REQUEST['wrap']) && is_string($_REQUEST['wrap'])) ?
         $_REQUEST['wrap'] : $defaultView;
     if ($wrap == 'expose') {
       $wrap = 'expose';
       $script = 'expose.php';
 
-      // Standard-Konfigurationswerte beim ersten Aufruf setzen
+      // load configuration
+      $setup = new immotool_setup_expose();
+      if (is_callable(array('immotool_myconfig', 'load_config_expose'))) {
+        immotool_myconfig::load_config_expose($setup);
+      }
+
+      // set default configuration values on the first request of the page
       if (!isset($_REQUEST['wrap'])) {
         if ($params->get('lang', null) != null) {
           $_REQUEST[IMMOTOOL_PARAM_LANG] = $params->get('lang');
@@ -190,7 +196,13 @@ class OpenEstateWrapper {
       $wrap = 'index';
       $script = 'index.php';
 
-      // Standard-Konfigurationswerte beim ersten Aufruf setzen
+      // load configuration
+      $setup = new immotool_setup_index();
+      if (is_callable(array('immotool_myconfig', 'load_config_index'))) {
+        immotool_myconfig::load_config_index($setup);
+      }
+
+      // set default configuration values on the first request of the page
       if (!isset($_REQUEST['wrap'])) {
         $_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER_CLEAR] = '1';
         if ($params->get('lang', null) != null) {
@@ -207,14 +219,14 @@ class OpenEstateWrapper {
         }
       }
 
-      // Zurücksetzen der gewählten Filter
+      // clear filter selections, if this is explicitly selected
       if (isset($_REQUEST[IMMOTOOL_PARAM_INDEX_RESET])) {
         unset($_REQUEST[IMMOTOOL_PARAM_INDEX_RESET]);
         $_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER] = array();
         $_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER_CLEAR] = '1';
       }
 
-      // vorgegebene Filter-Kriterien mit der Anfrage zusammenführen
+      // load configured filter criterias into the request
       if (!isset($_REQUEST['wrap']) || isset($_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER])) {
         $filters = OpenEstateWrapper::parseValuesFromTxt($params->get('filter'));
         if (is_array($filters)) {
@@ -230,36 +242,21 @@ class OpenEstateWrapper {
       }
     }
 
-    // Script ausführen
+    // execute the script
     //echo 'wrap: ' . IMMOTOOL_BASE_PATH . $script;
     ob_start();
     include( IMMOTOOL_BASE_PATH . $script );
     $page = ob_get_contents();
     ob_end_clean();
 
-    // Konfiguration ermitteln
-    $setup = null;
-    if ($wrap == 'expose') {
-      $setup = new immotool_setup_expose();
-      if (is_callable(array('immotool_myconfig', 'load_config_expose'))) {
-        immotool_myconfig::load_config_expose($setup);
-      }
-    }
-    else {
-      $setup = new immotool_setup_index();
-      if (is_callable(array('immotool_myconfig', 'load_config_index'))) {
-        immotool_myconfig::load_config_index($setup);
-      }
-    }
-
-    // Nachträgliche Bearbeitung am Dokument
+    // make some modifications to the current document
     $lang = (isset($_REQUEST[IMMOTOOL_PARAM_LANG])) ? $_REQUEST[IMMOTOOL_PARAM_LANG] : $params->get('lang');
     if (is_string($lang)) {
       $document->setLanguage($lang);
       $document->setMetaData('language', $lang);
     }
 
-    // Stylesheets registrieren
+    // add stylesheets to the current document
     $stylesheets = array(IMMOTOOL_BASE_URL . 'style.php?wrapped=1');
     if (is_string($setup->AdditionalStylesheet) && strlen($setup->AdditionalStylesheet) > 0) {
       $stylesheets[] = $setup->AdditionalStylesheet;
@@ -268,16 +265,18 @@ class OpenEstateWrapper {
       $document->addStyleSheet($stylesheet);
     }
 
-    // Nachträgliche Bearbeitung am Dokument, Exposéansicht
+    // set default meta data
     $metaDescription = null;
     $metaKeywords = null;
+
+    // further modifications to the current document in expose view
     if ($wrap == 'expose') {
       $exposeId = (isset($_REQUEST[IMMOTOOL_PARAM_EXPOSE_ID])) ? $_REQUEST[IMMOTOOL_PARAM_EXPOSE_ID] : null;
       $exposeObj = (is_string($exposeId)) ? immotool_functions::get_object($exposeId) : null;
       $exposeTxt = (is_string($exposeId)) ? immotool_functions::get_text($exposeId) : null;
       if (is_array($exposeObj)) {
 
-        // Titel der Immobilie ins Dokument übernehmen
+        // add title of the requested property to the current document
         $title = (is_string($lang) && isset($exposeObj['title'][$lang])) ? $exposeObj['title'][$lang] : null;
         if (is_string($title)) {
           $title = trim(strip_tags(html_entity_decode($title, ENT_NOQUOTES, $setup->Charset)));
@@ -286,13 +285,13 @@ class OpenEstateWrapper {
       }
       if (is_array($exposeTxt)) {
 
-        // Keywords aus Immobilie übernehmen
+        // use keywords of the requested property as meta keywords
         $txt = (is_string($lang) && isset($exposeTxt['keywords'][$lang])) ? $exposeTxt['keywords'][$lang] : null;
         if (is_string($txt)) {
           $metaKeywords = trim(strip_tags(html_entity_decode($txt, ENT_NOQUOTES, $setup->Charset)));
         }
 
-        // Description aus Immobilie übernehmen
+        // use description of the requested property as meta description
         if (is_array($setup->MetaDescriptionTexts)) {
           foreach ($setup->MetaDescriptionTexts as $attrib) {
             $txt = (isset($objectTexts[$attrib][$lang])) ? $objectTexts[$attrib][$lang] : null;
@@ -300,26 +299,24 @@ class OpenEstateWrapper {
               $metaDescription = trim(strip_tags(html_entity_decode($txt, ENT_NOQUOTES, $setup->Charset)));
               break;
             }
-            else {
-              $txt = null;
-            }
           }
         }
       }
     }
 
-    // Meta-Description ggf. ins Dokument übernehmen
+    // add meta description to the current document
     if (is_string($metaDescription) && strlen(trim($metaDescription)) > 0) {
       $document->setMetaData('description', trim($metaDescription));
     }
 
-    // Meta-Keywords ggf. ins Dokument übernehmen
+    // add meta keywords to the current document
     if (is_string($metaKeywords) && strlen(trim($metaKeywords)) > 0) {
       $document->setMetaData('keywords', trim($metaKeywords));
     }
 
-    // Ausgabe erzeugen
-    return immotool_functions::wrap_page($page, $wrap, $scriptName, IMMOTOOL_BASE_URL, array(), $hiddenParams);
+    // convert and return wrapped content
+    return immotool_functions::wrap_page(
+            $page, $wrap, $scriptName, IMMOTOOL_BASE_URL, array(), $hiddenParams);
   }
 
 }

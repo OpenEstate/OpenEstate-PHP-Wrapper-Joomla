@@ -35,7 +35,7 @@ class JFormFieldLanguage extends JFormField {
 
   protected function getInput() {
 
-    // Skript-Umgebung ggf. einbinden
+    // load script environment
     if (!defined('IMMOTOOL_BASE_PATH')) {
       $parameters = OpenEstateWrapper::getParameters();
       if ($parameters == null) {
@@ -51,6 +51,7 @@ class JFormFieldLanguage extends JFormField {
       }
     }
 
+    // build widget for language selection
     $class = $this->element['class'] ? $this->element['class'] : 'inputbox';
     $output = '<select id="' . $this->id . '" name="' . $this->name . '" class="' . $class . '">';
     foreach (immotool_functions::get_language_codes() as $code) {
