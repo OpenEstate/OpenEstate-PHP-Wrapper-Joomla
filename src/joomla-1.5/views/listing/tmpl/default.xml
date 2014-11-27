@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+  <layout title="LISTING_LAYOUT">
+    <message><![CDATA[LISTING_LAYOUT_TEXT]]></message>
+  </layout>
+  <state>
+    <name>LISTING_LAYOUT</name>
+    <description>LISTING_LAYOUT_TEXT</description>
+    <params addpath="/administrator/components/com_openestate/elements">
+      <param name="lang" type="language" label="LANGUAGE" description="LANGUAGE_TEXT" />
+      <param name="mode" type="list" default="entry" label="MODE" description="MODE_TEXT">
+        <option value="entry">MODE_OPTION_ENTRY</option>
+        <option value="gallery">MODE_OPTION_GALLERY</option>
+      </param>
+      <param name="view" type="list" default="index" label="VIEW" description="VIEW_TEXT">
+        <option value="index">VIEW_OPTION_INDEX</option>
+        <option value="fav">VIEW_OPTION_FAV</option>
+      </param>
+      <param name="order" type="order" default="id-desc" label="ORDER" description="ORDER_TEXT" />
+      <param name="filter" type="filter" label="FILTERS" description="FILTERS_TEXT" />
+    </params>
+  </state>
+</metadata>
