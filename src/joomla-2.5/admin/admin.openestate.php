@@ -1,11 +1,11 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: admin.openestate.php 906 2011-06-16 00:23:35Z andy $
+ * $Id: admin.openestate.php 1342 2012-01-29 12:47:15Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
- * @copyright 2010-2011, OpenEstate.org
+ * @copyright 2010-2012, OpenEstate.org
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
@@ -14,7 +14,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 // Load the html class
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
- 
+
 // Register CSS
 $uri = &JFactory::getURI();
 $css = $uri->root().'administrator'.DS.'components'.DS.'com_openestate'.DS.'admin.openestate.css';
@@ -27,7 +27,8 @@ $document->addStyleSheet( $css, 'text/css', null, array() );
 //$log = & JLog::getInstance();
 //$log->addEntry(array("level" => 0,"status"=> 1, "comment" => "openestate :".$ret));
 
-switch ($task) {
+$t = JRequest::getVar('task', '');
+switch ($t) {
   case 'about':
     OpenEstateViews::about();
     break;

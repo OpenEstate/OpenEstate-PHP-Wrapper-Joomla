@@ -1,11 +1,11 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: openestate.wrapper.php 1116 2011-10-21 19:13:16Z andy $
+ * $Id: openestate.wrapper.php 1344 2012-01-29 14:02:47Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
- * @copyright 2010-2011, OpenEstate.org
+ * @copyright 2010-2012, OpenEstate.org
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
@@ -49,21 +49,21 @@ class OpenEstateWrapper {
 
   function getParameters() {
     jimport( 'joomla.html.parameter' );
-    
+
     // Joomla 1.5: Eintrag in der Komponenten-Tabelle
     //$table = JTable::getInstance('component');
     //if( !$table->loadByOption('com_openestate') ) {
     //  JError::raiseWarning(500, 'Not a valid component');
     //  return null;
     //}
-    
+
     // Joomla 1.6: Eintrag in der Komponenten-Tabelle
 		$table = &JTable::getInstance('extension');
     //if (!$table->load(array('name'=>'openestate'))) {
 		if (!$table->load(array('name'=>'com_openestate'))) {
       JError::raiseWarning(500, 'Not a valid component');
       return false;
-	  }    
+	  }
 
     return new JParameter( $table->params,
             JPATH_ADMINISTRATOR.DS.'components'.DS.'com_openestate'.DS.'config.wrapper.xml');
@@ -215,8 +215,54 @@ class OpenEstateWrapper {
     if (is_string($setup->AdditionalStylesheet) && strlen($setup->AdditionalStylesheet)>0)
       $stylesheets[] = $setup->AdditionalStylesheet;
 
+    // Nachträgliche Bearbeitung am Dokument
+    $document = &JFactory::getDocument();
+    $lang = (isset($_REQUEST[ IMMOTOOL_PARAM_LANG ]))? $_REQUEST[ IMMOTOOL_PARAM_LANG ]: $params->get( 'lang' );
+    if (is_string($lang)) {
+      $document->setLanguage( $lang );
+      $document->setMetaData( 'language', $lang );
+    }
+    foreach ($stylesheets as $stylesheet) {
+      $document->addStyleSheet( $stylesheet );
+    }
+
+    // Nachträgliche Bearbeitung am Dokument, Exposéansicht
+    if ($wrap=='expose') {
+      $exposeId = (isset($_REQUEST[ IMMOTOOL_PARAM_EXPOSE_ID ]))? $_REQUEST[ IMMOTOOL_PARAM_EXPOSE_ID ]: null;
+      $exposeObj = (is_string($exposeId))? immotool_functions::get_object( $exposeId ): null;
+      $exposeTxt = (is_string($exposeId))? immotool_functions::get_text( $exposeId ): null;
+      if (is_array($exposeObj)) {
+
+        // Titel aus Immobilie übernehmen
+        $title = (is_string($lang) && isset($exposeObj['title'][$lang]))? $exposeObj['title'][$lang]: null;
+        if (is_string($title)) {
+          $title = trim( strip_tags( html_entity_decode( $title, ENT_NOQUOTES, $setup->Charset ) ) );
+          $document->setTitle( $title . ' | ' . $document->getTitle() );
+        }
+      }
+      if (is_array($exposeTxt)) {
+
+        // Keywords aus Immobilie übernehmen
+        $keywords = (is_string($lang) && isset($exposeTxt['keywords'][$lang]))? $exposeTxt['keywords'][$lang]: null;
+        if (is_string($keywords)) {
+          $keywords = trim( strip_tags( html_entity_decode( $keywords, ENT_NOQUOTES, $setup->Charset ) ) );
+          $document->setMetaData( 'keywords', $keywords );
+        }
+
+        // Description aus Immobilie übernehmen
+        $description = (is_string($lang) && isset($exposeTxt['short_description'][$lang]))? $exposeTxt['short_description'][$lang]: null;
+        if (is_null($description)) {
+          $description = (is_string($lang) && isset($exposeTxt['kurz_beschr'][$lang]))? $exposeTxt['kurz_beschr'][$lang]: null;
+        }
+        if (is_string($description)) {
+          $description = trim( strip_tags( html_entity_decode( $description, ENT_NOQUOTES, $setup->Charset ) ) );
+          $document->setMetaData( 'description', $description );
+        }
+      }
+    }
+
     // Ausgabe erzeugen
-    return immotool_functions::wrap_page( $page, $wrap, $scriptName, IMMOTOOL_BASE_URL, $stylesheets, $hiddenParams );
+    return immotool_functions::wrap_page( $page, $wrap, $scriptName, IMMOTOOL_BASE_URL, array(), $hiddenParams );
   }
 }
 ?>

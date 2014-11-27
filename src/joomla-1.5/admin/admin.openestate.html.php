@@ -1,11 +1,11 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: admin.openestate.html.php 904 2011-06-16 00:18:52Z andy $
+ * $Id: admin.openestate.html.php 1341 2012-01-27 17:41:29Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
- * @copyright 2010-2011, OpenEstate.org
+ * @copyright 2010-2012, OpenEstate.org
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
@@ -164,7 +164,7 @@ class OpenEstateViews {
         }
       }
     }
-    
+
     // Prüfung der Eingaben, URL
     $scriptUrl = OpenEstateWrapper::getScriptUrl( $parameters );
     if (!is_string($scriptUrl) || strlen(trim($scriptUrl))==0)

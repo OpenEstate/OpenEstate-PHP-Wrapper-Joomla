@@ -1,11 +1,11 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: admin.openestate.html.php 906 2011-06-16 00:23:35Z andy $
+ * $Id: admin.openestate.html.php 1342 2012-01-29 12:47:15Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
- * @copyright 2010-2011, OpenEstate.org
+ * @copyright 2010-2012, OpenEstate.org
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
@@ -86,7 +86,7 @@ class OpenEstateViews {
     echo '<h2>'.JText::_( 'COM_OPENESTATE_WRAPPER_TITLE' ).'</h2>';
     echo '<p>'.JText::sprintf( 'COM_OPENESTATE_WRAPPER_INFO', 'http://wiki.openestate.org/Kategorie:ImmoTool_PHP-Export' ).'</p>';
     echo '<h3>'.JText::_( 'COM_OPENESTATE_WRAPPER_SETUP' ).'</h3>';
-    
+
     // Eintrag in der Komponenten-Tabelle
 		$table = &JTable::getInstance('extension');
     //if (!$table->load(array('name'=>'openestate'))) {
@@ -98,9 +98,9 @@ class OpenEstateViews {
 
     // Formular zur Einbindung der Skript-Umgebung verarbeiten
     if (strtoupper($_SERVER['REQUEST_METHOD'])=='POST') {
-      
+
       $post = JRequest::get('post');
-      //echo '<pre>'; print_r( $post ); echo '</pre>';      
+      //echo '<pre>'; print_r( $post ); echo '</pre>';
 
       // Pfad muss ein '/' am Ende haben
       $value = $post['params']['script_path'];
@@ -135,7 +135,7 @@ class OpenEstateViews {
     foreach (array_keys($groups) as $group) {
       //echo '<p>'.$group.'</p>';
       //echo $parameters->render('params', $group);
-      
+
       $fields = $parameters->renderToArray('params', $group);
       //echo '<pre>'; print_r( $fields ); echo '</pre>';
       foreach ($fields as $field) {
@@ -190,7 +190,7 @@ class OpenEstateViews {
         }
       }
     }
-    
+
     // Prüfung der Eingaben, URL
     $scriptUrl = OpenEstateWrapper::getScriptUrl( $parameters );
     if (!is_string($scriptUrl) || strlen(trim($scriptUrl))==0)
