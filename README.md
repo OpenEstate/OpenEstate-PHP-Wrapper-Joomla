@@ -1,4 +1,4 @@
-OpenEstate-PHP-Wrapper for Joomla 0.1.2 / 0.2.2
+OpenEstate-PHP-Wrapper for Joomla 0.1.3 / 0.2.3
 ===============================================
 
 This extension integrates [OpenEstate-PHP-Export](https://github.com/OpenEstate/OpenEstate-PHP-Export)
@@ -33,6 +33,17 @@ Webseite integriert werden.
 
 Changelog
 ---------
+
+### 0.1.3 / 0.2.3
+
+-   Reset filter selection, if a property page is accessed for the first time or
+    if the website visitor jumps between multiple property pages.
+    (see [Forum](http://board.openestate.org/viewtopic.php?f=7&t=3329))
+-   Show a **notice** instead of an **error** message on the website, if
+    *OpenEstate-ImmoTool* is currently exporting properties to the webspace.
+    (see [Forum](http://board.openestate.org/viewtopic.php?f=6&t=3208))
+-   Fixed problem with SEO URL's (URL-Rewrite), that occured solely on
+    1&1 webspaces.
 
 ### 0.1.2 / 0.2.2
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: view.html.php 904 2011-06-16 00:18:52Z andy $
+ * $Id: view.html.php 1114 2011-10-21 19:12:11Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
@@ -50,7 +50,7 @@ class OpenestateViewListing extends JView {
       }
     }
     else if (is_file(IMMOTOOL_BASE_PATH . 'immotool.php.lock')) {
-      $msg = '<h2>'.JText::_( 'ERROR' ).'!</h2><p>'.JText::_( 'UPDATE_IS_RUNNING' ).'</p>';
+      $msg = '<h2>'.JText::_( 'NOTICE' ).'!</h2><p>'.JText::_( 'UPDATE_IS_RUNNING' ).'</p>';
       $this->assignRef( 'content', $msg );
       parent::display($tpl);
       return;
@@ -85,6 +85,9 @@ class OpenestateViewListing extends JView {
       if ($app->getCfg('sef_rewrite')=='1') {
         $requestUrl = explode('?', $_SERVER['REQUEST_URI']);
         $baseUrl = $requestUrl[0];
+      }
+      else if (isset($_SERVER['REDIRECT_URL'])) {
+      	$baseUrl = $_SERVER['REDIRECT_URL'];
       }
       else {
         $baseUrl = $_SERVER['PHP_SELF'];
