@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="1.6.0" method="upgrade" client="site">
   <name>COM_OPENESTATE</name>
-  <creationDate>October 2012</creationDate>
+  <creationDate>February 2013</creationDate>
   <author>Andreas Rudolph, Walter Wagner</author>
   <authorEmail>info@openindex.de</authorEmail>
   <authorUrl>http://openestate.org</authorUrl>
-  <copyright>(C) 2010-2012 All rights reserved.</copyright>
+  <copyright>(C) 2010-2013 All rights reserved.</copyright>
   <license>GNU/GPL3</license>
-  <version>0.2.7</version>
+  <version>0.2.8</version>
   <description>COM_OPENESTATE_DESCRIPTION</description>
   <updateservers>
-    <server type="extension" priority="1" name="openestate.org">http://wiki.openestate.org/mediawiki/images/e/e9/Joomla25_extension.xml</server>
+    <server type="extension" priority="1" name="openestate.org">http://wiki.openestate.org/mediawiki/images/8/88/Joomla_updates.xml</server>
   </updateservers>
 
   <!-- Site Main File Copy Section -->
