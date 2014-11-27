@@ -1,7 +1,7 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: order.php 1341 2012-01-27 17:41:29Z andy $
+ * $Id: order.php 1617 2012-07-03 08:11:53Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
@@ -42,8 +42,22 @@ class JElementOrder extends JElement {
     // Sortierkriterien ermitteln
     $sortedOrders = array();
     $availableOrders = array();
-    $setupIndex = new immotool_setup_index();
-    foreach ($setupIndex->OrderOptions as $key) {
+    $orderNames = array();
+    if (!is_callable(array('immotool_functions', 'list_available_orders'))) {
+      // Mechanismus für ältere PHP-Exporte, um die registrierten Sortierungen zu verwenden
+      $setupIndex = new immotool_setup_index();
+      if (is_callable(array('immotool_functions', 'init_config'))) {
+        immotool_functions::init_config($setupIndex, 'load_config_index');
+      }
+      if (is_array($setupIndex->OrderOptions)) {
+        $orderNames = $setupIndex->OrderOptions;
+      }
+    }
+    else {
+      // alle verfügbaren Sortierungen verwenden
+      $orderNames = immotool_functions::list_available_orders();
+    }
+    foreach ($orderNames as $key) {
       $orderObj = immotool_functions::get_order($key);
       //$by = $orderObj->getName();
       $by = $orderObj->getTitle( $translations, $lang );

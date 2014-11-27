@@ -1,4 +1,4 @@
-OpenEstate-PHP-Wrapper for Joomla 0.1.4 / 0.2.4
+OpenEstate-PHP-Wrapper for Joomla 0.1.5 / 0.2.5
 ===============================================
 
 This extension integrates [OpenEstate-PHP-Export](https://github.com/OpenEstate/OpenEstate-PHP-Export)
@@ -33,6 +33,14 @@ Webseite integriert werden.
 
 Changelog
 ---------
+
+### 0.1.5 / 0.2.5
+
+-   Predefined filters / orderings are handled incorrectly under certain
+    circumstances.
+    (see [Forum](http://board.openestate.org/viewtopic.php?f=7&t=8698))
+-   Show all available ordering-options within administration dashboard.
+    (see [Forum](http://board.openestate.org/viewtopic.php?f=7&t=8763#p12562))
 
 ### 0.1.4 / 0.2.4
 
