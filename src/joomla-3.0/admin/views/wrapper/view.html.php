@@ -140,9 +140,6 @@ class OpenestateViewWrapper extends JViewLegacy {
     if (!is_string($scriptUrl) || strlen(trim($scriptUrl)) == 0) {
       $this->errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_URL_EMPTY');
     }
-    else if (strpos(strtolower($scriptUrl), 'http://') !== 0 && strpos(strtolower($scriptUrl), 'https://') !== 0) {
-      $this->errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_URL_INVALID');
-    }
 
     // render page
     parent::display($tpl);
