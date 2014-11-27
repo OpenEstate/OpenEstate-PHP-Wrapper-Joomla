@@ -1,7 +1,7 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: controller.php 646 2011-01-07 23:33:40Z andy $
+ * $Id: controller.php 711 2011-02-16 22:23:59Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner

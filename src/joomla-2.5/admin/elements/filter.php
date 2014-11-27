@@ -1,7 +1,7 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: filter.php 646 2011-01-07 23:33:40Z andy $
+ * $Id: filter.php 711 2011-02-16 22:23:59Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
@@ -11,11 +11,9 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-//jimport( 'joomla.html.parameter.element' );
-jimport('joomla.form.formfield');
+jimport( 'joomla.form.formfield' );
 include_once( JPATH_ROOT.DS.'components'.DS.'com_openestate'.DS.'openestate.wrapper.php' );
 
-//class JElementFilter extends JElement {
 class JFormFieldFilter extends JFormField {
 
   /**
@@ -26,8 +24,6 @@ class JFormFieldFilter extends JFormField {
    */
   public $type = 'Filter';
 
-
-  //function fetchElement($name, $value, &$node, $control_name) {
   protected function getInput() {
 
     // Skript-Umgebung ggf. einbinden
@@ -51,7 +47,6 @@ class JFormFieldFilter extends JFormField {
 
     // Widgets der vorhandenen Filter erzeugen
     $filterIds = array();
-    //$output .= '<ul>';
     $output .= '<table style="float:left;" cellpadding="0" cellspacing="0">';
     foreach (immotool_functions::list_available_filters() as $key) {
       $filterObj = immotool_functions::get_filter( $key );
@@ -69,18 +64,13 @@ class JFormFieldFilter extends JFormField {
       $filterWidget = str_replace( '<input ', '<input onchange="build_tag();" ', $filterWidget );
       $filterWidget = str_replace( '<label ', '<label style="display:inline; clear:none;" ', $filterWidget );
       //$filterWidget = str_replace( '</label>', '</span>', $filterWidget );
-      //$output .= '<div style="margin-bottom:4px;"">' . $filterWidget . '</div>';
-      //$output .= '<li style="margin-bottom:4px; display:block;">' . $filterWidget . '</li>';
       $output .= '<tr>';
       $output .= '<td style="padding-bottom:4px;">' . $filterWidget . '</td>';
       $output .= '</tr>';
       $filterIds[] = '\''.$key.'\'';
     }
-    //$output .= '</ul>';
     $output .= '</table>';
-
     $output .= '<textarea id="'.$this->id.'" name="'.$this->name.'"'.'" cols="10" rows="5" style="clear:both; width:100%; visibility:hidden; position:absolute;">'.$this->value.'</textarea>';
-    //$output .= '<textarea id="'.$this->id.'" name="'.$this->name.'"'.'" cols="10" rows="5" style="clear:both; width:100%;">'.$this->value.'</textarea>';
     $output .= '<script type="text/javascript">
 <!--
 function build_tag()
@@ -106,15 +96,17 @@ function build_tag()
     {
       val = obj2.value;
     }
-    if (val!=\'\') params += filters[i] + \'=\' + val + \'\n\';
+    if (val!=\'\')
+    {
+      if (params.length>0) params += \'|||\';
+      params += filters[i] + \'=\' + val;
+    }
   }
-
   obj.innerHTML = params;
 }
 //build_tag();
 -->
 </script>';
-
     return $output;
   }
 }

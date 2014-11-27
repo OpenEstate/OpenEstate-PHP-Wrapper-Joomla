@@ -1,7 +1,7 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: admin.openestate.php 645 2011-01-05 13:40:07Z andy $
+ * $Id: admin.openestate.php 711 2011-02-16 22:23:59Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
@@ -15,10 +15,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 // Load the html class
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
  
-// Joomla 1.5: Register CSS
-//$css = $mainframe->getSiteURL().'administrator'.DS.'components'.DS.'com_openestate'.DS.'admin.openestate.css';
-
-// Joomla 1.6: Register CSS
+// Register CSS
 $uri = &JFactory::getURI();
 $css = $uri->root().'administrator'.DS.'components'.DS.'com_openestate'.DS.'admin.openestate.css';
 
