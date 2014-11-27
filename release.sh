@@ -1,8 +1,8 @@
 #!/bin/bash
 
 NAME="com_openestate"
-VERSION15="0.1"
-VERSION25="0.2"
+VERSION15="0.1.1"
+VERSION25="0.2.1"
 PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 rm -Rf $PROJECT_DIR/release

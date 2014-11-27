@@ -1,7 +1,7 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: admin.openestate.html.php 647 2011-01-08 00:35:39Z andy $
+ * $Id: admin.openestate.html.php 711 2011-02-16 22:23:59Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
@@ -87,14 +87,7 @@ class OpenEstateViews {
     echo '<p>'.JText::sprintf( 'COM_OPENESTATE_WRAPPER_INFO', 'http://wiki.openestate.org/Kategorie:ImmoTool_PHP-Export' ).'</p>';
     echo '<h3>'.JText::_( 'COM_OPENESTATE_WRAPPER_SETUP' ).'</h3>';
     
-    // Joomla 1.5: Eintrag in der Komponenten-Tabelle
-    //$table = &JTable::getInstance('component');
-    //if( !$table->loadByOption('com_openestate') ) {
-    //  JError::raiseWarning(500, 'Not a valid component');
-    //  return false;
-    //}
-    
-    // Joomla 1.6: Eintrag in der Komponenten-Tabelle
+    // Eintrag in der Komponenten-Tabelle
 		$table = &JTable::getInstance('extension');
     //if (!$table->load(array('name'=>'openestate'))) {
 		if (!$table->load(array('name'=>'com_openestate'))) {

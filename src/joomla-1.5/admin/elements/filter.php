@@ -1,7 +1,7 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: filter.php 586 2010-12-10 07:42:45Z andy $
+ * $Id: filter.php 712 2011-02-16 22:24:18Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
@@ -57,8 +57,6 @@ class JElementFilter extends JElement {
         //echo "Filter-Widget $key nicht erzeugt<hr/>";
         continue;
       }
-      //$filterWidget = str_replace( 'id="filter_'.$key.'"', 'id="'.$control_name.'['.$name.']['.$key.']"', $filterWidget );
-      //$filterWidget = str_replace( 'name="filter['.$key.']"', 'name="'.$control_name.'['.$name.']['.$key.']"', $filterWidget );
       $filterWidget = str_replace( '<select ', '<select onchange="build_tag();" ', $filterWidget );
       $filterWidget = str_replace( '<input ', '<input onchange="build_tag();" ', $filterWidget );
       $output .= '<div style="margin-bottom:4px;">' . $filterWidget . '</div>';
@@ -91,7 +89,11 @@ function build_tag()
     {
       val = obj2.value;
     }
-    if (val!=\'\') params += filters[i] + \'=\' + val + \'\n\';
+    if (val!=\'\')
+    {
+      if (params.length>0) params += \'|||\';
+      params += filters[i] + \'=\' + val;
+    }
   }
 
   obj.innerHTML = params;
@@ -99,7 +101,6 @@ function build_tag()
 //build_tag();
 -->
 </script>';
-
     return $output;
   }
 }

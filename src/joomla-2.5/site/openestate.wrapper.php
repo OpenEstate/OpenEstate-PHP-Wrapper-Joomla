@@ -1,7 +1,7 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: openestate.wrapper.php 646 2011-01-07 23:33:40Z andy $
+ * $Id: openestate.wrapper.php 711 2011-02-16 22:23:59Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
@@ -112,7 +112,16 @@ class OpenEstateWrapper {
   }
 
   function parseValuesFromTxt( &$txt ) {
-    $lines = explode( "\n", $txt );
+    $lines = array();
+
+    // in older versions, values are splitted by \n
+    if (strpos(trim($txt), "\n")!==false)
+      $lines = explode( "\n", $txt );
+
+    // in current version, values are written into one line, splitted by |||
+    else
+      $lines = explode( "|||", $txt );
+
     $values = array();
     foreach ($lines as $line) {
       $line = trim($line);

@@ -1,5 +1,5 @@
-OpenEstate-PHP-Wrapper for Joomla 0.1 / 0.2
-===========================================
+OpenEstate-PHP-Wrapper for Joomla 0.1.1 / 0.2.1
+===============================================
 
 This extension integrates [OpenEstate-PHP-Export](https://github.com/OpenEstate/OpenEstate-PHP-Export)
 into a *Joomla* based website.
@@ -33,6 +33,11 @@ Webseite integriert werden.
 
 Changelog
 ---------
+
+### 0.1.1 / 0.2.1
+
+-   Fixed compatibility issue with Internet Explorer.
+    (see [Forum](http://board.openestate.org/viewtopic.php?f=7&t=1949))
 
 ### 0.2
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: order.php 646 2011-01-07 23:33:40Z andy $
+ * $Id: order.php 711 2011-02-16 22:23:59Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
@@ -11,11 +11,9 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-//jimport( 'joomla.html.parameter.element' );
 jimport('joomla.form.formfield');
 include_once( JPATH_ROOT.DS.'components'.DS.'com_openestate'.DS.'openestate.wrapper.php' );
 
-//class JElementOrder extends JElement {
 class JFormFieldOrder extends JFormField {
 
   /**
@@ -26,7 +24,6 @@ class JFormFieldOrder extends JFormField {
    */
   public $type = 'Order';
 
-  //function fetchElement($name, $value, &$node, $control_name) {
   protected function getInput() {
 
     // Skript-Umgebung ggf. einbinden
