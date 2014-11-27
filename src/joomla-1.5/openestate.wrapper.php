@@ -1,7 +1,7 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: openestate.wrapper.php 904 2011-06-16 00:18:52Z andy $
+ * $Id: openestate.wrapper.php 1114 2011-10-21 19:12:11Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
@@ -160,7 +160,7 @@ class OpenEstateWrapper {
       //echo '<pre>';
       //print_r($_REQUEST);
       //echo '</pre>';
-      $wrapParams = array( 'wrap', IMMOTOOL_PARAM_LANG, IMMOTOOL_PARAM_EXPOSE_ID, IMMOTOOL_PARAM_EXPOSE_VIEW );
+      $wrapParams = array( 'wrap', IMMOTOOL_PARAM_LANG, IMMOTOOL_PARAM_INDEX_VIEW, IMMOTOOL_PARAM_INDEX_MODE, IMMOTOOL_PARAM_INDEX_ORDER, IMMOTOOL_PARAM_INDEX_FILTER );
       $useDefaultParams = true;
       foreach ($wrapParams as $param) {
         if (isset($_REQUEST[ $param ])) {
@@ -169,6 +169,7 @@ class OpenEstateWrapper {
         }
       }
       if ($useDefaultParams) {
+        $_REQUEST[ IMMOTOOL_PARAM_INDEX_FILTER_CLEAR ] = '1';
         if ($params->get( 'lang', null )!=null)
           $_REQUEST[ IMMOTOOL_PARAM_LANG ] = $params->get( 'lang' );
         if ($params->get( 'view', null )!=null)
