@@ -7,7 +7,7 @@
   <authorUrl>http://openestate.org</authorUrl>
   <copyright>(C) 2010-2011 All rights reserved.</copyright>
   <license>GNU/GPL3</license>
-  <version>0.2.1</version>
+  <version>0.2.2</version>
   <description>COM_OPENESTATE_DESCRIPTION</description>
   <updateservers>
     <server type="extension" priority="1" name="openestate.org">http://wiki.openestate.org/mediawiki/images/9/9e/Joomla16_extension.xml</server>

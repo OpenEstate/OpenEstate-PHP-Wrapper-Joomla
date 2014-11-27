@@ -1,4 +1,4 @@
-OpenEstate-PHP-Wrapper for Joomla 0.1.1 / 0.2.1
+OpenEstate-PHP-Wrapper for Joomla 0.1.2 / 0.2.2
 ===============================================
 
 This extension integrates [OpenEstate-PHP-Export](https://github.com/OpenEstate/OpenEstate-PHP-Export)
@@ -33,6 +33,18 @@ Webseite integriert werden.
 
 Changelog
 ---------
+
+### 0.1.2 / 0.2.2
+
+-   Show an error message on the website, if *OpenEstate-ImmoTool* is currently
+    exporting properties to the webspace.
+    (see [Bug-Tracker #594](http://tracker.openestate.org/view.php?id=594))
+-   Improved handling of SEO URL's for enabled and disabled `mod_rewrite`.
+    (see [Joomla documentation](http://docs.joomla.org/How_do_you_implement_Search_Engine_Friendly_URLs_%28SEF%29%3F))
+-   Enter a text or HTML code in the administration of a menu entry, that is
+    displayed before / after the wrapped content.
+-   Property search fails in multilingual installations of Joomla 1.6 / 1.7 / 2.5.
+    (see [Forum](http://board.openestate.org/viewtopic.php?f=16&p=3929#p3870))
 
 ### 0.1.1 / 0.2.1
 
