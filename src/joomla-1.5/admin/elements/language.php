@@ -1,11 +1,11 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: language.php 586 2010-12-10 07:42:45Z andy $
+ * $Id: language.php 904 2011-06-16 00:18:52Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
- * @copyright 2010, OpenEstate.org
+ * @copyright 2010-2011, OpenEstate.org
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 

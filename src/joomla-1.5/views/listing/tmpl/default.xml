@@ -7,6 +7,7 @@
     <name>LISTING_LAYOUT</name>
     <description>LISTING_LAYOUT_TEXT</description>
     <params addpath="/administrator/components/com_openestate/elements">
+      <param type="spacer" default="WRAPPER" />
       <param name="lang" type="language" label="LANGUAGE" description="LANGUAGE_TEXT" />
       <param name="mode" type="list" default="entry" label="MODE" description="MODE_TEXT">
         <option value="entry">MODE_OPTION_ENTRY</option>
@@ -18,6 +19,9 @@
       </param>
       <param name="order" type="order" default="id-desc" label="ORDER" description="ORDER_TEXT" />
       <param name="filter" type="filter" label="FILTERS" description="FILTERS_TEXT" />
+      <param type="spacer" default="TEXTS" />
+      <param name="preText" type="textarea" label="TEXTS_PRE" description="TEXTS_PRE_TEXT" rows="5" cols="30" />
+      <param name="postText" type="textarea" label="TEXTS_POST" description="TEXTS_POST_TEXT" rows="5" cols="30" />
     </params>
   </state>
 </metadata>
