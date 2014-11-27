@@ -39,6 +39,7 @@ Changelog
 *not released yet*
 
 -   use same plugin version for the different Joomla packages
+-   made some syntax fixes
 
 
 ### 0.1.8 / 0.2.8 / 0.3.8

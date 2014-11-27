@@ -1,28 +1,36 @@
 <?php
-/**
- * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: view.html.php 2071 2013-02-13 14:46:18Z andy $
+/*
+ * A Joomla module for the OpenEstate-PHP-Export
+ * Copyright (C) 2010-2014 OpenEstate.org
  *
- * @package OpenEstate
- * @author Andreas Rudolph & Walter Wagner
- * @copyright 2010-2013, OpenEstate.org
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 class OpenestateViewAbout extends JViewLegacy {
+
   function display($tpl = null) {
-    require_once( JPATH_COMPONENT.'/helpers/openestate.php' );
+    require_once( JPATH_COMPONENT . '/helpers/openestate.php' );
 
     // allgemeine Komponenten
-    OpenestateHelper::addTitle( 'about' );
-    $this->sidebar = OpenestateHelper::buildSidebar( 'about' );
-    $this->infobar = OpenestateHelper::buildInfobar( 'about' );
+    OpenestateHelper::addTitle('about');
+    $this->sidebar = OpenestateHelper::buildSidebar('about');
+    $this->infobar = OpenestateHelper::buildInfobar('about');
 
     // Template rendern
-    parent::display( $tpl );
+    parent::display($tpl);
   }
+
 }
-?>
