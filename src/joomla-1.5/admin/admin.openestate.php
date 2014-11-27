@@ -1,11 +1,11 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: admin.openestate.php 904 2011-06-16 00:18:52Z andy $
+ * $Id: admin.openestate.php 1341 2012-01-27 17:41:29Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
- * @copyright 2010-2011, OpenEstate.org
+ * @copyright 2010-2012, OpenEstate.org
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
@@ -13,7 +13,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 // Load the html class
-require_once( JApplicationHelper::getPath( 'admin_html' ) ); 
+require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 // Register CSS
 $document = &JFactory::getDocument();

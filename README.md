@@ -1,4 +1,4 @@
-OpenEstate-PHP-Wrapper for Joomla 0.1.3 / 0.2.3
+OpenEstate-PHP-Wrapper for Joomla 0.1.4 / 0.2.4
 ===============================================
 
 This extension integrates [OpenEstate-PHP-Export](https://github.com/OpenEstate/OpenEstate-PHP-Export)
@@ -33,6 +33,18 @@ Webseite integriert werden.
 
 Changelog
 ---------
+
+### 0.1.4 / 0.2.4
+
+-   some compatibility fixes for Joomla 2.5
+-   put selected language as meta `language` element into the page
+-   put the title of the selected property as `<title>`element  into the page
+-   put the short description of the selected property meta `description`
+    element into the page
+-   put the keywords of the selected property meta `keywords` element into the
+    page
+-   put general stylesheet (`style.php`) and additional stylesheets into the
+    `<head` section of the page
 
 ### 0.1.3 / 0.2.3
 

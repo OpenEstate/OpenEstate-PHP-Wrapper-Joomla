@@ -1,11 +1,11 @@
 <?php
 /**
  * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: view.html.php 1114 2011-10-21 19:12:11Z andy $
+ * $Id: view.html.php 1341 2012-01-27 17:41:29Z andy $
  *
  * @package OpenEstate
  * @author Andreas Rudolph & Walter Wagner
- * @copyright 2010-2011, OpenEstate.org
+ * @copyright 2010-2012, OpenEstate.org
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
@@ -103,7 +103,7 @@ class OpenestateViewListing extends JView {
 
     $content = OpenEstateWrapper::wrap( 'index', $baseUrl, $menuParams, $hiddenParams );
     $this->assignRef( 'content', $content );
-    
+
     $preText = $menuParams->get('preText');
     if (is_string($preText) && strlen(trim($preText))>0) {
       echo '<div id="openestate_wrapper_pretext">'.trim($preText).'</div>';
