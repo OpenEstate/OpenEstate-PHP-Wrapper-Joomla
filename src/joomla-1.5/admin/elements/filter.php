@@ -1,19 +1,27 @@
 <?php
-/**
- * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: filter.php 2053 2013-02-12 07:55:22Z andy $
+/*
+ * A Joomla module for the OpenEstate-PHP-Export
+ * Copyright (C) 2010-2014 OpenEstate.org
  *
- * @package OpenEstate
- * @author Andreas Rudolph & Walter Wagner
- * @copyright 2010-2013, OpenEstate.org
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
-include_once( JPATH_ROOT.DS.'components'.DS.'com_openestate'.DS.'openestate.wrapper.php' );
+defined('_JEXEC') or die('Restricted access');
+include_once( JPATH_ROOT . DS . 'components' . DS . 'com_openestate' . DS . 'openestate.wrapper.php' );
 
 class JElementFilter extends JElement {
+
   /**
    * Element name
    *
@@ -24,57 +32,63 @@ class JElementFilter extends JElement {
 
   function fetchElement($name, $value, &$node, $control_name) {
 
-    // Skript-Umgebung ggf. einbinden
+    // load script environment
     if (!defined('IMMOTOOL_BASE_PATH')) {
       $parameters = OpenEstateWrapper::getParameters();
-      if ($parameters==null) return '';
-      $scriptPath = OpenEstateWrapper::getScriptPath( $parameters );
-      if (!is_dir($scriptPath)) return JText::_( 'WRAPPER_ERROR_PATH_INVALID' );
-      $result = OpenEstateWrapper::initEnvironment( $scriptPath );
-      if (is_string($result)) return $result;
+      if ($parameters == null) {
+        return '';
+      }
+      $scriptPath = OpenEstateWrapper::getScriptPath($parameters);
+      if (!is_dir($scriptPath)) {
+        return JText::_('WRAPPER_ERROR_PATH_INVALID');
+      }
+      $result = OpenEstateWrapper::initEnvironment($scriptPath);
+      if (is_string($result)) {
+        return $result;
+      }
     }
 
-    // Übersetzungen ermitteln
+    // load translations
     $translations = array();
     $jLang = &JFactory::getLanguage();
-    $lang = OpenEstateWrapper::loadTranslations( $jLang->getTag(), $translations );
+    $lang = OpenEstateWrapper::loadTranslations($jLang->getTag(), $translations);
 
-    // Filter-Werte ermitteln
-    $values = OpenEstateWrapper::parseValuesFromTxt( $value );
+    // get current filter values
+    $values = OpenEstateWrapper::parseValuesFromTxt($value);
     //echo '<pre>'; print_r( $values ); echo '</pre>';
 
-    // Widgets der vorhandenen Filter erzeugen
+    // show widgets for any available filter
     $filterIds = array();
     foreach (immotool_functions::list_available_filters() as $key) {
-      $filterObj = immotool_functions::get_filter( $key );
+      $filterObj = immotool_functions::get_filter($key);
       if (!is_object($filterObj)) {
-        //echo "Filter-Objekt $key nicht gefunden<hr/>";
+        //echo "Can't find filter object $key<hr/>";
         continue;
       }
-      $filterValue = (isset($values[$key]))? $values[$key]: '';
-      $filterWidget = $filterObj->getWidget( $filterValue, $lang, $translations, $setupIndex );
-      if (!is_string($filterWidget) || strlen($filterWidget)==0) {
-        //echo "Filter-Widget $key nicht erzeugt<hr/>";
+      $filterValue = (isset($values[$key])) ? $values[$key] : '';
+      $filterWidget = $filterObj->getWidget($filterValue, $lang, $translations, $setupIndex);
+      if (!is_string($filterWidget) || strlen($filterWidget) == 0) {
+        //echo "Can't create widget for filter object $key<hr/>";
         continue;
       }
-      $filterWidget = str_replace( '<select ', '<select onchange="build_tag();" ', $filterWidget );
-      $filterWidget = str_replace( '<input ', '<input onchange="build_tag();" ', $filterWidget );
+      $filterWidget = str_replace('<select ', '<select onchange="build_tag();" ', $filterWidget);
+      $filterWidget = str_replace('<input ', '<input onchange="build_tag();" ', $filterWidget);
       $output .= '<div style="margin-bottom:4px;">' . $filterWidget . '</div>';
-      $filterIds[] = '\''.$key.'\'';
+      $filterIds[] = '\'' . $key . '\'';
     }
 
-    $output .= '<textarea id="'.$control_name . '[' . $name . ']"'.'" name="'.$control_name . '[' . $name . ']"'.'" cols="50" rows="5" style="visibility:hidden; position:absolute;">'.$value.'</textarea>';
+    $output .= '<textarea id="' . $control_name . '[' . $name . ']"' . '" name="' . $control_name . '[' . $name . ']"' . '" cols="50" rows="5" style="visibility:hidden; position:absolute;">' . $value . '</textarea>';
     $output .= '<script type="text/javascript">
 <!--
 function build_tag()
 {
   //alert( \'build_tag\' );
-  var obj = document.getElementById(\''.$control_name.'['.$name.']'.'\');
+  var obj = document.getElementById(\'' . $control_name . '[' . $name . ']' . '\');
   if (obj==null) return;
 
   var obj2 = null;
   var params = \'\';
-  var filters = new Array('.implode(', ', $filterIds).');
+  var filters = new Array(' . implode(', ', $filterIds) . ');
   for (var i=0; i<filters.length; i++)
   {
     obj2 = document.getElementById(\'filter_\'+filters[i]);
@@ -103,5 +117,5 @@ function build_tag()
 </script>';
     return $output;
   }
+
 }
-?>

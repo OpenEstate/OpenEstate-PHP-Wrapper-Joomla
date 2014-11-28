@@ -1,38 +1,45 @@
 <?php
-/**
- * OpenEstate-PHP-Wrapper für Joomla.
- * $Id: openestate.php 2054 2013-02-12 07:55:38Z andy $
+/*
+ * A Joomla module for the OpenEstate-PHP-Export
+ * Copyright (C) 2010-2014 OpenEstate.org
  *
- * @package OpenEstate
- * @author Andreas Rudolph & Walter Wagner
- * @copyright 2010-2013, OpenEstate.org
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-// Require the base controller
-require_once( JPATH_COMPONENT.DS.'controller.php' );
+// require the base controller
+require_once( JPATH_COMPONENT . DS . 'controller.php' );
 
-// Require specific controller if requested
+// require specific controller if requested
 $controller = JRequest::getWord('controller');
-if($controller!=null) {
-  $path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
+if ($controller != null) {
+  $path = JPATH_COMPONENT . DS . 'controllers' . DS . $controller . '.php';
   if (file_exists($path)) {
     require_once $path;
-  } else {
+  }
+  else {
     $controller = '';
   }
 }
 
-// Create the controller
-$classname  = 'OpenEstateController'.$controller;
-$controller = new $classname( );
+// create the controller
+$classname = 'OpenEstateController' . $controller;
+$controllerInstance = new $classname( );
 
-// Perform the Request task
-$controller->execute( JRequest::getVar( 'task' ) );
+// perform the requested task
+$controllerInstance->execute(JRequest::getVar('task'));
 
-// Redirect if set by the controller
-$controller->redirect();
-?>
+// redirect if set by the controller
+$controllerInstance->redirect();

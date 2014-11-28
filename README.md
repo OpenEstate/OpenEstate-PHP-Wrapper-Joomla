@@ -1,7 +1,7 @@
-OpenEstate-PHP-Wrapper for Joomla 0.1.8 / 0.2.8 / 0.3.8
-=======================================================
+OpenEstate-PHP-Wrapper for Joomla 0.4
+=====================================
 
-This extension integrates [OpenEstate-PHP-Export](https://github.com/OpenEstate/OpenEstate-PHP-Export)
+This component integrates [OpenEstate-PHP-Export](https://github.com/OpenEstate/OpenEstate-PHP-Export)
 into a *Joomla* based website.
 
 
@@ -14,7 +14,7 @@ OpenEstate.org provides a freeware software - called *OpenEstate-ImmoTool* -
 for small and medium sized real-estate-agencies all over the world.
 
 As one certain feature of this software, the managed properties can be exported
-to any website that supports PHP. Together with this module, the exported
+to any website that supports PHP. Together with this component, the exported
 properties can be easily integrated into a *Joomla* based website without
 any frames.
 
@@ -26,13 +26,21 @@ mit den Anwendern soll eine Softwarelösung für kleine bis mittelgroße
 Immobilienunternehmen entwickelt werden.
 
 Unter Anderem können die im *OpenEstate-ImmoTool* verwalteten Immobilien als
-PHP-Skripte auf die eigene Webseite exportiert werden. Mit Hilfe dieses Moduls
-kann dieser PHP-Export unkompliziert in eine auf *Joomla* basierende
+PHP-Skripte auf die eigene Webseite exportiert werden. Mit Hilfe dieser
+Komponente kann dieser PHP-Export unkompliziert in eine auf *Joomla* basierende
 Webseite integriert werden.
 
 
 Changelog
 ---------
+
+### 0.4
+
+-   use the same version numbering for the different Joomla packages
+-   less strict validation of the script URL in the component configuration
+-   translated any source code comments into English
+-   made some syntax fixes
+-   tested against *Joomla* 1.5.26 / 2.5.27 / 3.3.6
 
 ### 0.1.8 / 0.2.8 / 0.3.8
 
