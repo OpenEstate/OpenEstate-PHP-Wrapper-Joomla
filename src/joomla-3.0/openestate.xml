@@ -7,7 +7,7 @@
   <authorUrl>http://openestate.org</authorUrl>
   <copyright>(C) 2010-2014 All rights reserved.</copyright>
   <license>GNU/GPL3</license>
-  <version>0.4</version>
+  <version>0.5-SNAPSHOT</version>
   <description>COM_OPENESTATE_DESCRIPTION</description>
   <updateservers>
     <server type="extension" priority="1" name="github.com">https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla/raw/master/updates.xml</server>

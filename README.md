@@ -1,5 +1,5 @@
-OpenEstate-PHP-Wrapper for Joomla 0.4
-=====================================
+OpenEstate-PHP-Wrapper for Joomla 0.5-SNAPSHOT
+==============================================
 
 This component integrates [OpenEstate-PHP-Export](https://github.com/OpenEstate/OpenEstate-PHP-Export)
 into a *Joomla* based website.
@@ -33,6 +33,10 @@ Webseite integriert werden.
 
 Changelog
 ---------
+
+### 0.5
+
+*not released yet*
 
 ### 0.4
 
