@@ -85,7 +85,7 @@ class JElementOrder extends JElement {
     // build widget for available orderings
     $class = $node->attributes('class') ? $node->attributes('class') : 'inputbox';
     $output = '<select id="' . $control_name . '[' . $name . ']"' . '" name="' . $control_name . '[' . $name . ']"' . '" class="' . $class . '">';
-    $output .= '<optgroup label="aufsteigend">';
+    $output .= '<optgroup label="' . JText::_('ORDER_ASCENDING') . '">';
     foreach ($sortedOrders as $key => $by) {
       $orderObj = $availableOrders[$key];
       $o = $key . '-asc';
@@ -93,7 +93,7 @@ class JElementOrder extends JElement {
       $output .= '<option value="' . $o . '" ' . $selected . '>&uarr; ' . $by . ' &uarr;</option>';
     }
     $output .= '</optgroup>';
-    $output .= '<optgroup label="absteigend">';
+    $output .= '<optgroup label="' . JText::_('ORDER_DESCENDING') . '">';
     foreach ($sortedOrders as $key => $by) {
       $orderObj = $availableOrders[$key];
       $o = $key . '-desc';

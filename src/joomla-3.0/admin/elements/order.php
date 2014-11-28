@@ -88,7 +88,7 @@ class JFormFieldOrder extends JFormField {
     // build widget for available orderings
     $class = $this->element['class'] ? $this->element['class'] : 'inputbox';
     $output = '<select id="' . $this->id . '"' . '" name="' . $this->name . '" class="' . $class . '">';
-    $output .= '<optgroup label="aufsteigend">';
+    $output .= '<optgroup label="' . JText::_('COM_OPENESTATE_ORDER_ASCENDING') . '">';
     foreach ($sortedOrders as $key => $by) {
       $orderObj = $availableOrders[$key];
       $o = $key . '-asc';
@@ -96,7 +96,7 @@ class JFormFieldOrder extends JFormField {
       $output .= '<option value="' . $o . '" ' . $selected . '>&uarr; ' . $by . ' &uarr;</option>';
     }
     $output .= '</optgroup>';
-    $output .= '<optgroup label="absteigend">';
+    $output .= '<optgroup label="' . JText::_('COM_OPENESTATE_ORDER_DESCENDING') . '">';
     foreach ($sortedOrders as $key => $by) {
       $orderObj = $availableOrders[$key];
       $o = $key . '-desc';
