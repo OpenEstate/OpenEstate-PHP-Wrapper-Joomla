@@ -213,9 +213,6 @@ class OpenEstateViews {
     if (!is_string($scriptUrl) || strlen(trim($scriptUrl)) == 0) {
       $errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_URL_EMPTY');
     }
-    else if (strpos(strtolower($scriptUrl), 'http://') !== 0 && strpos(strtolower($scriptUrl), 'https://') !== 0) {
-      $errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_URL_INVALID');
-    }
 
     // show validation messages
     if (count($errors) > 0) {
