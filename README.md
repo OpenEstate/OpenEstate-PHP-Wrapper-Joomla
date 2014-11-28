@@ -36,10 +36,11 @@ Changelog
 
 ### 0.4
 
--   use same plugin version for the different Joomla packages
+-   use the same version numbering for the different Joomla packages
+-   less strict validation of the script URL in the component configuration
 -   translated any source code comments into English
 -   made some syntax fixes
-
+-   tested against *Joomla* 1.5.26 / 2.5.27 / 3.3.6
 
 ### 0.1.8 / 0.2.8 / 0.3.8
 
