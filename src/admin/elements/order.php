@@ -1,7 +1,7 @@
 <?php
 /*
  * A Joomla module for the OpenEstate-PHP-Export
- * Copyright (C) 2010-2015 OpenEstate.org
+ * Copyright (C) 2010-2018 OpenEstate.org
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -21,6 +21,8 @@ defined('_JEXEC') or die('Restricted access');
 
 // init
 jimport('joomla.form.formfield');
+
+/** @noinspection PhpIncludeInspection */
 include_once(JPATH_ROOT . '/components/com_openestate/openestate.wrapper.php');
 
 class JFormFieldOrder extends JFormField
@@ -28,14 +30,21 @@ class JFormFieldOrder extends JFormField
     /**
      * The form field type.
      *
-     * @var         string
-     * @since       1.6
+     * @var string
+     * @since 1.6
      */
     public $type = 'Order';
 
+    /**
+     * Method to get the field input markup.
+     *
+     * @return string
+     * The field input markup.
+     *
+     * @since 11.1
+     */
     protected function getInput()
     {
-
         // load script environment
         if (!defined('IMMOTOOL_BASE_PATH')) {
             $parameters = OpenEstateWrapper::getParameters();
@@ -44,6 +53,7 @@ class JFormFieldOrder extends JFormField
             }
             $scriptPath = OpenEstateWrapper::getScriptPath($parameters);
             if (!is_dir($scriptPath)) {
+                /** @noinspection PhpUndefinedMethodInspection */
                 return JText::_('COM_OPENESTATE_WRAPPER_ERROR_PATH_INVALID');
             }
             $result = OpenEstateWrapper::initEnvironment($scriptPath);
@@ -58,7 +68,7 @@ class JFormFieldOrder extends JFormField
 
         // load translations
         $translations = array();
-        $jLang = &JFactory::getLanguage();
+        $jLang = JFactory::getLanguage();
         $lang = OpenEstateWrapper::loadTranslations($jLang->getTag(), $translations);
 
         // load available orderings
@@ -89,17 +99,19 @@ class JFormFieldOrder extends JFormField
         // build widget for available orderings
         $class = $this->element['class'] ? $this->element['class'] : 'inputbox';
         $output = '<select id="' . $this->id . '"' . '" name="' . $this->name . '" class="' . $class . '">';
+        /** @noinspection PhpUndefinedMethodInspection */
         $output .= '<optgroup label="' . JText::_('COM_OPENESTATE_ORDER_ASCENDING') . '">';
         foreach ($sortedOrders as $key => $by) {
-            $orderObj = $availableOrders[$key];
+            //$orderObj = $availableOrders[$key];
             $o = $key . '-asc';
             $selected = ($this->value == $o) ? 'selected="selected"' : '';
             $output .= '<option value="' . $o . '" ' . $selected . '>&uarr; ' . $by . ' &uarr;</option>';
         }
         $output .= '</optgroup>';
+        /** @noinspection PhpUndefinedMethodInspection */
         $output .= '<optgroup label="' . JText::_('COM_OPENESTATE_ORDER_DESCENDING') . '">';
         foreach ($sortedOrders as $key => $by) {
-            $orderObj = $availableOrders[$key];
+            //$orderObj = $availableOrders[$key];
             $o = $key . '-desc';
             $selected = ($this->value == $o) ? 'selected="selected"' : '';
             $output .= '<option value="' . $o . '" ' . $selected . '>&darr; ' . $by . ' &darr;</option>';
@@ -108,5 +120,4 @@ class JFormFieldOrder extends JFormField
         $output .= '</select>';
         return $output;
     }
-
 }

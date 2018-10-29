@@ -1,7 +1,7 @@
 <?php
 /*
  * A Joomla module for the OpenEstate-PHP-Export
- * Copyright (C) 2010-2015 OpenEstate.org
+ * Copyright (C) 2010-2018 OpenEstate.org
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as

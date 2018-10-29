@@ -1,7 +1,7 @@
 <?php
 /*
  * A Joomla module for the OpenEstate-PHP-Export
- * Copyright (C) 2010-2015 OpenEstate.org
+ * Copyright (C) 2010-2018 OpenEstate.org
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -76,13 +76,13 @@ class OpenEstateWrapper
         return JComponentHelper::getParams('com_openestate')->toArray();
     }
 
-    public static function getScriptPath(&$params)
+    public static function getScriptPath($params)
     {
         return (is_array($params) && isset($params['script_path'])) ?
             $params['script_path'] : '';
     }
 
-    public static function getScriptUrl(&$params)
+    public static function getScriptUrl($params)
     {
         return (is_array($params) && isset($params['script_url'])) ?
             $params['script_url'] : '';
@@ -104,6 +104,7 @@ class OpenEstateWrapper
             define('IN_WEBSITE', 1);
             foreach ($environmentFiles as $file) {
                 //echo IMMOTOOL_BASE_PATH . $file . '<hr/>';
+                /** @noinspection PhpIncludeInspection */
                 include(IMMOTOOL_BASE_PATH . $file);
             }
             if (!defined('IMMOTOOL_SCRIPT_VERSION')) {
@@ -129,14 +130,14 @@ class OpenEstateWrapper
         return $lang;
     }
 
-    public static function parseValuesFromTxt(&$txt)
+    public static function parseValuesFromTxt($txt)
     {
-        $lines = array();
+        //$lines = array();
 
-        // in older versions, values are splitted by \n
+        // in older versions, values are split by \n
         if (strpos(trim($txt), "\n") !== false) {
             $lines = explode("\n", $txt);
-        } // in current version, values are written into one line, splitted by |||
+        } // in current version, values are written into one line, split by |||
         else {
             $lines = explode("|||", $txt);
         }
@@ -158,12 +159,12 @@ class OpenEstateWrapper
         return $values;
     }
 
-    public static function wrap($defaultView, $scriptName, &$params, &$hiddenParams)
+    public static function wrap($defaultView, $scriptName, $params, $hiddenParams)
     {
         //return '<pre>' . print_r($_REQUEST, true) . '</pre>';
         //return '<pre>' . print_r($_SERVER, true) . '</pre>';
-        $document = &JFactory::getDocument();
-        $app = &JFactory::getApplication();
+        $document = JFactory::getDocument();
+        $app = JFactory::getApplication();
         $menus = (is_object($app)) ? $app->getMenu() : null;
         $menu = (is_object($menus)) ? $menus->getActive() : null;
 
@@ -223,9 +224,10 @@ class OpenEstateWrapper
                 $_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER_CLEAR] = '1';
             }
 
-            // load configured filter criterias into the request
+            // load configured filter criteria into the request
             if (!isset($_REQUEST['wrap']) || isset($_REQUEST[IMMOTOOL_PARAM_INDEX_FILTER])) {
-                $filters = OpenEstateWrapper::parseValuesFromTxt($params->get('filter'));
+                $filter = $params->get('filter');
+                $filters = OpenEstateWrapper::parseValuesFromTxt($filter);
                 if (is_array($filters)) {
                     $settings['filter'] = array();
                     foreach ($filters as $filter => $value) {
@@ -248,6 +250,7 @@ class OpenEstateWrapper
         // execute the script
         //echo 'wrap: ' . IMMOTOOL_BASE_PATH . $script;
         ob_start();
+        /** @noinspection PhpIncludeInspection */
         include(IMMOTOOL_BASE_PATH . $script);
         $page = ob_get_contents();
         ob_end_clean();
@@ -311,7 +314,7 @@ class OpenEstateWrapper
                 // use description of the requested property as meta description
                 if (is_array($setup->MetaDescriptionTexts)) {
                     foreach ($setup->MetaDescriptionTexts as $attrib) {
-                        $txt = (isset($objectTexts[$attrib][$lang])) ? $objectTexts[$attrib][$lang] : null;
+                        $txt = (isset($objectTexts) && isset($objectTexts[$attrib][$lang])) ? $objectTexts[$attrib][$lang] : null;
                         if (is_string($txt) && strlen(trim($txt)) > 0) {
                             $metaDescription = trim(strip_tags(html_entity_decode($txt, ENT_NOQUOTES, $setup->Charset)));
                             break;

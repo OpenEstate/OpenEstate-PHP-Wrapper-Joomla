@@ -1,7 +1,7 @@
 <?php
 /*
  * A Joomla module for the OpenEstate-PHP-Export
- * Copyright (C) 2010-2015 OpenEstate.org
+ * Copyright (C) 2010-2018 OpenEstate.org
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -16,15 +16,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/** @noinspection PhpInconsistentReturnPointsInspection */
+
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.html.parameter');
 
 class OpenestateViewWrapper extends JViewLegacy
 {
+    public $sidebar;
+    public $infobar;
+    public $form;
+    public $errors;
+
+    /**
+     * Execute and display a template script.
+     *
+     * @param string $tpl
+     * The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return mixed
+     * A string if successful, otherwise an Error object.
+     *
+     * @see \JViewLegacy::loadTemplate()
+     * @since 3.0
+     */
     function display($tpl = null)
     {
+        /** @noinspection PhpIncludeInspection */
         require_once(JPATH_COMPONENT . '/helpers/openestate.php');
+        /** @noinspection PhpIncludeInspection */
         require_once(JPATH_ROOT . '/components/com_openestate/openestate.wrapper.php');
 
         // get component settings
@@ -36,7 +57,7 @@ class OpenestateViewWrapper extends JViewLegacy
         $this->infobar = OpenestateHelper::buildInfobar('wrapper');
 
         // get entry in extension table
-        $table = &JTable::getInstance('extension');
+        $table = JTable::getInstance('extension');
         if (!$table->load(array('name' => 'com_openestate'))) {
             JError::raiseWarning(500, 'Not a valid component');
             return false;
@@ -89,7 +110,7 @@ class OpenestateViewWrapper extends JViewLegacy
         }
 
         // build form for script configuration
-        $this->form = &JForm::getInstance('wrapper', JPATH_COMPONENT_ADMINISTRATOR . '/form.wrapper.xml');
+        $this->form = JForm::getInstance('wrapper', JPATH_COMPONENT_ADMINISTRATOR . '/form.wrapper.xml');
         //echo '<pre>' . print_r( $params, true ) . '</pre>';
         foreach ($params as $key => $value) {
             $this->form->setValue($key, 'main', $value);
@@ -102,8 +123,10 @@ class OpenestateViewWrapper extends JViewLegacy
         $translations = null;
         $scriptPath = OpenEstateWrapper::getScriptPath($params);
         if (!is_string($scriptPath) || strlen(trim($scriptPath)) == 0) {
+            /** @noinspection PhpUndefinedMethodInspection */
             $this->errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_PATH_EMPTY');
         } else if (!is_dir($scriptPath)) {
+            /** @noinspection PhpUndefinedMethodInspection */
             $this->errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_PATH_INVALID');
         } else {
             // load script environment
@@ -111,6 +134,7 @@ class OpenestateViewWrapper extends JViewLegacy
             define('IMMOTOOL_BASE_PATH', $scriptPath);
             foreach ($environmentFiles as $file) {
                 if (!is_file(IMMOTOOL_BASE_PATH . $file)) {
+                    /** @noinspection PhpMethodParametersCountMismatchInspection */
                     $this->errors[] = JText::sprintf('COM_OPENESTATE_WRAPPER_ERROR_CANT_LOAD_FILE', $file);
                 }
             }
@@ -118,17 +142,21 @@ class OpenestateViewWrapper extends JViewLegacy
                 define('IN_WEBSITE', 1);
                 foreach ($environmentFiles as $file) {
                     //echo IMMOTOOL_BASE_PATH . $file . '<hr/>';
+                    /** @noinspection PhpIncludeInspection */
                     include(IMMOTOOL_BASE_PATH . $file);
                 }
                 if (!defined('IMMOTOOL_SCRIPT_VERSION')) {
+                    /** @noinspection PhpUndefinedMethodInspection */
                     $this->errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_CANT_LOAD_VERSION');
                 }
 
                 // load translations
                 $translations = array();
-                $jLang = &JFactory::getLanguage();
+                $jLang = JFactory::getLanguage();
+                /** @noinspection PhpUnusedLocalVariableInspection */
                 $lang = OpenEstateWrapper::loadTranslations($jLang->getTag(), $translations);
                 if ($translations == null || count($translations) == 0) {
+                    /** @noinspection PhpUndefinedMethodInspection */
                     $this->errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_CANT_LOAD_TRANSLATION');
                 }
             }
@@ -137,11 +165,11 @@ class OpenestateViewWrapper extends JViewLegacy
         // check configuration of script URL
         $scriptUrl = OpenEstateWrapper::getScriptUrl($params);
         if (!is_string($scriptUrl) || strlen(trim($scriptUrl)) == 0) {
+            /** @noinspection PhpUndefinedMethodInspection */
             $this->errors[] = JText::_('COM_OPENESTATE_WRAPPER_ERROR_URL_EMPTY');
         }
 
         // render page
         parent::display($tpl);
     }
-
 }

@@ -1,7 +1,7 @@
 <?php
 /*
  * A Joomla module for the OpenEstate-PHP-Export
- * Copyright (C) 2010-2015 OpenEstate.org
+ * Copyright (C) 2010-2018 OpenEstate.org
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -21,6 +21,8 @@ defined('_JEXEC') or die('Restricted access');
 
 // init
 jimport('joomla.form.formfield');
+
+/** @noinspection PhpIncludeInspection */
 include_once(JPATH_ROOT . '/components/com_openestate/openestate.wrapper.php');
 
 class JFormFieldFilter extends JFormField
@@ -28,14 +30,21 @@ class JFormFieldFilter extends JFormField
     /**
      * The form field type.
      *
-     * @var         string
-     * @since       1.6
+     * @var string
+     * @since 1.6
      */
     public $type = 'Filter';
 
+    /**
+     * Method to get the field input markup.
+     *
+     * @return string
+     * The field input markup.
+     *
+     * @since 11.1
+     */
     protected function getInput()
     {
-
         // load script environment
         if (!defined('IMMOTOOL_BASE_PATH')) {
             $parameters = OpenEstateWrapper::getParameters();
@@ -44,6 +53,7 @@ class JFormFieldFilter extends JFormField
             }
             $scriptPath = OpenEstateWrapper::getScriptPath($parameters);
             if (!is_dir($scriptPath)) {
+                /** @noinspection PhpUndefinedMethodInspection */
                 return JText::_('COM_OPENESTATE_WRAPPER_ERROR_PATH_INVALID');
             }
             $result = OpenEstateWrapper::initEnvironment($scriptPath);
@@ -56,7 +66,7 @@ class JFormFieldFilter extends JFormField
 
         // load translations
         $translations = array();
-        $jLang = &JFactory::getLanguage();
+        $jLang = JFactory::getLanguage();
         $lang = OpenEstateWrapper::loadTranslations($jLang->getTag(), $translations);
 
         // get current filter values
@@ -78,8 +88,8 @@ class JFormFieldFilter extends JFormField
                 //echo "Can't create widget for filter object $key<hr/>";
                 continue;
             }
-            $filterWidget = str_replace('<select ', '<select onchange="build_tag();" ', $filterWidget);
-            $filterWidget = str_replace('<input ', '<input onchange="build_tag();" ', $filterWidget);
+            $filterWidget = str_replace('<select ', '<select onchange="openestate_update_tag();" ', $filterWidget);
+            $filterWidget = str_replace('<input ', '<input onchange="openestate_update_tag();" ', $filterWidget);
             $filterWidget = str_replace('<label ', '<label style="display:inline; clear:none;" ', $filterWidget);
             $output .= '<tr>';
             $output .= '<td style="padding-bottom:4px;">' . $filterWidget . '</td>';
@@ -87,12 +97,22 @@ class JFormFieldFilter extends JFormField
             $filterIds[] = '\'' . $key . '\'';
         }
         $output .= '</table>';
-        $output .= '<textarea id="' . $this->id . '" name="' . $this->name . '"' . '" cols="10" rows="5" style="clear:both; width:100%; visibility:hidden; position:absolute;">' . $this->value . '</textarea>';
-        $output .= '<script type="text/javascript">
-<!--
-function build_tag()
+        $output .= '<textarea '
+            . 'id="' . $this->id . '" '
+            . 'name="' . $this->name . '"' . '" '
+            . 'cols="10" rows="5" '
+            . 'style="display:none;">'
+            . $this->value
+            . '</textarea>';
+
+        /** @noinspection JSUnusedLocalSymbols */
+        /** @noinspection JSPrimitiveTypeWrapperUsage */
+        /** @noinspection ES6ConvertVarToLetConst */
+        $output .= '
+<script type="text/javascript">
+function openestate_update_tag()
 {
-  //alert( \'build_tag\' );
+  //alert( \'openestate_update_tag\' );
   var obj = document.getElementById(\'' . $this->id . '\');
   if (obj==null) return;
 
@@ -103,17 +123,17 @@ function build_tag()
   {
     obj2 = document.getElementById(\'filter_\'+filters[i]);
     if (obj2==null) continue;
-    val = \'\';
+    var val = \'\';
     //alert( filters[i] + \': \' + obj2.checked );
-    if (obj2.checked==true || obj2.checked==false)
+    if (obj2.checked===true || obj2.checked===false)
     {
-      if (obj2.checked==true) val = obj2.value;
+      if (obj2.checked===true) val = obj2.value;
     }
     else
     {
       val = obj2.value;
     }
-    if (val!=\'\')
+    if (val!==\'\')
     {
       if (params.length>0) params += \'|||\';
       params += filters[i] + \'=\' + val;
@@ -121,10 +141,8 @@ function build_tag()
   }
   obj.innerHTML = params;
 }
-//build_tag();
--->
+//openestate_update_tag();
 </script>';
         return $output;
     }
-
 }

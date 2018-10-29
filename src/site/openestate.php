@@ -1,7 +1,7 @@
 <?php
 /*
  * A Joomla module for the OpenEstate-PHP-Export
- * Copyright (C) 2010-2015 OpenEstate.org
+ * Copyright (C) 2010-2018 OpenEstate.org
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -20,6 +20,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // require the base controller
+/** @noinspection PhpIncludeInspection */
 require_once(JPATH_COMPONENT . '/controller.php');
 
 // require specific controller if requested
@@ -27,6 +28,7 @@ $controller = JRequest::getWord('controller');
 if ($controller != null) {
     $path = JPATH_COMPONENT . '/controllers/' . $controller . '.php';
     if (file_exists($path)) {
+        /** @noinspection PhpIncludeInspection */
         require_once $path;
     } else {
         $controller = '';
@@ -35,6 +37,8 @@ if ($controller != null) {
 
 // create the controller
 $classname = 'OpenestateController' . $controller;
+
+/** @var JControllerLegacy $controllerInstance */
 $controllerInstance = new $classname();
 
 // perform the requested task

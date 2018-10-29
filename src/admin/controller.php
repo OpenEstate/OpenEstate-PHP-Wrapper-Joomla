@@ -1,7 +1,7 @@
 <?php
 /*
  * A Joomla module for the OpenEstate-PHP-Export
- * Copyright (C) 2010-2015 OpenEstate.org
+ * Copyright (C) 2010-2018 OpenEstate.org
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -22,21 +22,31 @@ defined('_JEXEC') or die('Restricted access');
 class OpenestateController extends JControllerLegacy
 {
     /**
-     * @var         string  The default view.
-     * @since   1.6
+     * The default view for the display method.
+     *
+     * @var    string
+     * @since  3.0
      */
     protected $default_view = 'wrapper';
 
     /**
-     * Method to display a view.
+     * Typical view method for MVC based architecture
      *
-     * @param   boolean                     If true, the view output will be cached
-     * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+     * This function is provide as a default implementation, in most cases
+     * you will need to override it in your own controllers.
      *
-     * @return  JController         This object to support chaining.
-     * @since   1.5
+     * @param boolean $cachable
+     * If true, the view output will be cached
+     *
+     * @param array $urlparams
+     * An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     *
+     * @return \JControllerLegacy
+     * A \JControllerLegacy object to support chaining.
+     *
+     * @since 3.0
      */
-    public function display($cachable = false, $urlparams = false)
+    public function display($cachable = false, $urlparams = array())
     {
         parent::display();
         return $this;

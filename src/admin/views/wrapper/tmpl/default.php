@@ -1,7 +1,7 @@
 <?php
 /*
  * A Joomla module for the OpenEstate-PHP-Export
- * Copyright (C) 2010-2015 OpenEstate.org
+ * Copyright (C) 2010-2018 OpenEstate.org
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
 $fieldSet = $this->form->getFieldset('wrapper');
 $mainContainerClass = (!empty($this->sidebar)) ? 'span10' : '';
 
-$document = &JFactory::getDocument();
+$document = JFactory::getDocument();
 $document->addStyleDeclaration('#main_script_path, #main_script_url {
   width: 400px !important;
 }');
