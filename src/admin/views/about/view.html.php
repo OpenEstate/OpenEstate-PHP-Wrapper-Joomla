@@ -19,18 +19,19 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class OpenestateViewAbout extends JViewLegacy {
+class OpenestateViewAbout extends JViewLegacy
+{
+    function display($tpl = null)
+    {
+        require_once(JPATH_COMPONENT . '/helpers/openestate.php');
 
-  function display($tpl = null) {
-    require_once( JPATH_COMPONENT . '/helpers/openestate.php' );
+        // build general components
+        OpenestateHelper::addTitle('about');
+        $this->sidebar = OpenestateHelper::buildSidebar('about');
+        $this->infobar = OpenestateHelper::buildInfobar('about');
 
-    // build general components
-    OpenestateHelper::addTitle('about');
-    $this->sidebar = OpenestateHelper::buildSidebar('about');
-    $this->infobar = OpenestateHelper::buildInfobar('about');
-
-    // render page
-    parent::display($tpl);
-  }
+        // render page
+        parent::display($tpl);
+    }
 
 }

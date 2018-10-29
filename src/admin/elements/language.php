@@ -21,45 +21,46 @@ defined('_JEXEC') or die('Restricted access');
 
 // init
 jimport('joomla.form.formfield');
-include_once( JPATH_ROOT . '/components/com_openestate/openestate.wrapper.php' );
+include_once(JPATH_ROOT . '/components/com_openestate/openestate.wrapper.php');
 
-class JFormFieldLanguage extends JFormField {
+class JFormFieldLanguage extends JFormField
+{
+    /**
+     * The form field type.
+     *
+     * @var         string
+     * @since       1.6
+     */
+    public $type = 'Language';
 
-  /**
-   * The form field type.
-   *
-   * @var         string
-   * @since       1.6
-   */
-  public $type = 'Language';
+    protected function getInput()
+    {
 
-  protected function getInput() {
+        // load script environment
+        if (!defined('IMMOTOOL_BASE_PATH')) {
+            $parameters = OpenEstateWrapper::getParameters();
+            if ($parameters == null) {
+                return '';
+            }
+            $scriptPath = OpenEstateWrapper::getScriptPath($parameters);
+            if (!is_dir($scriptPath)) {
+                return JText::_('COM_OPENESTATE_WRAPPER_ERROR_PATH_INVALID');
+            }
+            $result = OpenEstateWrapper::initEnvironment($scriptPath);
+            if (is_string($result)) {
+                return $result;
+            }
+        }
 
-    // load script environment
-    if (!defined('IMMOTOOL_BASE_PATH')) {
-      $parameters = OpenEstateWrapper::getParameters();
-      if ($parameters == null) {
-        return '';
-      }
-      $scriptPath = OpenEstateWrapper::getScriptPath($parameters);
-      if (!is_dir($scriptPath)) {
-        return JText::_('COM_OPENESTATE_WRAPPER_ERROR_PATH_INVALID');
-      }
-      $result = OpenEstateWrapper::initEnvironment($scriptPath);
-      if (is_string($result)) {
-        return $result;
-      }
+        // build widget for language selection
+        $class = $this->element['class'] ? $this->element['class'] : 'inputbox';
+        $output = '<select id="' . $this->id . '" name="' . $this->name . '" class="' . $class . '">';
+        foreach (immotool_functions::get_language_codes() as $code) {
+            $selected = ($this->value == $code) ? 'selected="selected"' : '';
+            $output .= '<option value="' . $code . '" ' . $selected . '>' . immotool_functions::get_language_name($code) . '</option>';
+        }
+        $output .= '</select>';
+        return $output;
     }
-
-    // build widget for language selection
-    $class = $this->element['class'] ? $this->element['class'] : 'inputbox';
-    $output = '<select id="' . $this->id . '" name="' . $this->name . '" class="' . $class . '">';
-    foreach (immotool_functions::get_language_codes() as $code) {
-      $selected = ($this->value == $code) ? 'selected="selected"' : '';
-      $output .= '<option value="' . $code . '" ' . $selected . '>' . immotool_functions::get_language_name($code) . '</option>';
-    }
-    $output .= '</select>';
-    return $output;
-  }
 
 }

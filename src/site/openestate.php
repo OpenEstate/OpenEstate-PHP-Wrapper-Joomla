@@ -20,23 +20,22 @@
 defined('_JEXEC') or die('Restricted access');
 
 // require the base controller
-require_once( JPATH_COMPONENT . '/controller.php' );
+require_once(JPATH_COMPONENT . '/controller.php');
 
 // require specific controller if requested
 $controller = JRequest::getWord('controller');
 if ($controller != null) {
-  $path = JPATH_COMPONENT . '/controllers/' . $controller . '.php';
-  if (file_exists($path)) {
-    require_once $path;
-  }
-  else {
-    $controller = '';
-  }
+    $path = JPATH_COMPONENT . '/controllers/' . $controller . '.php';
+    if (file_exists($path)) {
+        require_once $path;
+    } else {
+        $controller = '';
+    }
 }
 
 // create the controller
 $classname = 'OpenestateController' . $controller;
-$controllerInstance = new $classname( );
+$controllerInstance = new $classname();
 
 // perform the requested task
 $controllerInstance->execute(JRequest::getVar('task'));

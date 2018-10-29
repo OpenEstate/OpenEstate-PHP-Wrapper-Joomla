@@ -21,73 +21,74 @@ defined('_JEXEC') or die('Restricted access');
 
 // init
 jimport('joomla.form.formfield');
-include_once( JPATH_ROOT . '/components/com_openestate/openestate.wrapper.php' );
+include_once(JPATH_ROOT . '/components/com_openestate/openestate.wrapper.php');
 
-class JFormFieldFilter extends JFormField {
+class JFormFieldFilter extends JFormField
+{
+    /**
+     * The form field type.
+     *
+     * @var         string
+     * @since       1.6
+     */
+    public $type = 'Filter';
 
-  /**
-   * The form field type.
-   *
-   * @var         string
-   * @since       1.6
-   */
-  public $type = 'Filter';
+    protected function getInput()
+    {
 
-  protected function getInput() {
+        // load script environment
+        if (!defined('IMMOTOOL_BASE_PATH')) {
+            $parameters = OpenEstateWrapper::getParameters();
+            if ($parameters == null) {
+                return '';
+            }
+            $scriptPath = OpenEstateWrapper::getScriptPath($parameters);
+            if (!is_dir($scriptPath)) {
+                return JText::_('COM_OPENESTATE_WRAPPER_ERROR_PATH_INVALID');
+            }
+            $result = OpenEstateWrapper::initEnvironment($scriptPath);
+            if (is_string($result)) {
+                return $result;
+            }
+        }
+        $setup = new immotool_setup_index();
+        immotool_functions::init($setup, 'load_config_index');
 
-    // load script environment
-    if (!defined('IMMOTOOL_BASE_PATH')) {
-      $parameters = OpenEstateWrapper::getParameters();
-      if ($parameters == null) {
-        return '';
-      }
-      $scriptPath = OpenEstateWrapper::getScriptPath($parameters);
-      if (!is_dir($scriptPath)) {
-        return JText::_('COM_OPENESTATE_WRAPPER_ERROR_PATH_INVALID');
-      }
-      $result = OpenEstateWrapper::initEnvironment($scriptPath);
-      if (is_string($result)) {
-        return $result;
-      }
-    }
-    $setup = new immotool_setup_index();
-    immotool_functions::init($setup, 'load_config_index');
+        // load translations
+        $translations = array();
+        $jLang = &JFactory::getLanguage();
+        $lang = OpenEstateWrapper::loadTranslations($jLang->getTag(), $translations);
 
-    // load translations
-    $translations = array();
-    $jLang = &JFactory::getLanguage();
-    $lang = OpenEstateWrapper::loadTranslations($jLang->getTag(), $translations);
+        // get current filter values
+        $values = OpenEstateWrapper::parseValuesFromTxt($this->value);
+        //echo '<pre>'; print_r( $values ); echo '</pre>';
 
-    // get current filter values
-    $values = OpenEstateWrapper::parseValuesFromTxt($this->value);
-    //echo '<pre>'; print_r( $values ); echo '</pre>';
-
-    // show widgets for any available filter
-    $filterIds = array();
-    $output = '<table style="float:left;" cellpadding="0" cellspacing="0">';
-    foreach (immotool_functions::list_available_filters() as $key) {
-      $filterObj = immotool_functions::get_filter($key);
-      if (!is_object($filterObj)) {
-        //echo "Can't find filter object $key<hr/>";
-        continue;
-      }
-      $filterValue = (isset($values[$key])) ? $values[$key] : '';
-      $filterWidget = $filterObj->getWidget($filterValue, $lang, $translations, $setup);
-      if (!is_string($filterWidget) || strlen($filterWidget) == 0) {
-        //echo "Can't create widget for filter object $key<hr/>";
-        continue;
-      }
-      $filterWidget = str_replace('<select ', '<select onchange="build_tag();" ', $filterWidget);
-      $filterWidget = str_replace('<input ', '<input onchange="build_tag();" ', $filterWidget);
-      $filterWidget = str_replace('<label ', '<label style="display:inline; clear:none;" ', $filterWidget);
-      $output .= '<tr>';
-      $output .= '<td style="padding-bottom:4px;">' . $filterWidget . '</td>';
-      $output .= '</tr>';
-      $filterIds[] = '\'' . $key . '\'';
-    }
-    $output .= '</table>';
-    $output .= '<textarea id="' . $this->id . '" name="' . $this->name . '"' . '" cols="10" rows="5" style="clear:both; width:100%; visibility:hidden; position:absolute;">' . $this->value . '</textarea>';
-    $output .= '<script type="text/javascript">
+        // show widgets for any available filter
+        $filterIds = array();
+        $output = '<table style="float:left;" cellpadding="0" cellspacing="0">';
+        foreach (immotool_functions::list_available_filters() as $key) {
+            $filterObj = immotool_functions::get_filter($key);
+            if (!is_object($filterObj)) {
+                //echo "Can't find filter object $key<hr/>";
+                continue;
+            }
+            $filterValue = (isset($values[$key])) ? $values[$key] : '';
+            $filterWidget = $filterObj->getWidget($filterValue, $lang, $translations, $setup);
+            if (!is_string($filterWidget) || strlen($filterWidget) == 0) {
+                //echo "Can't create widget for filter object $key<hr/>";
+                continue;
+            }
+            $filterWidget = str_replace('<select ', '<select onchange="build_tag();" ', $filterWidget);
+            $filterWidget = str_replace('<input ', '<input onchange="build_tag();" ', $filterWidget);
+            $filterWidget = str_replace('<label ', '<label style="display:inline; clear:none;" ', $filterWidget);
+            $output .= '<tr>';
+            $output .= '<td style="padding-bottom:4px;">' . $filterWidget . '</td>';
+            $output .= '</tr>';
+            $filterIds[] = '\'' . $key . '\'';
+        }
+        $output .= '</table>';
+        $output .= '<textarea id="' . $this->id . '" name="' . $this->name . '"' . '" cols="10" rows="5" style="clear:both; width:100%; visibility:hidden; position:absolute;">' . $this->value . '</textarea>';
+        $output .= '<script type="text/javascript">
 <!--
 function build_tag()
 {
@@ -123,7 +124,7 @@ function build_tag()
 //build_tag();
 -->
 </script>';
-    return $output;
-  }
+        return $output;
+    }
 
 }
