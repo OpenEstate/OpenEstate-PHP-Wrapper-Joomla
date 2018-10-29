@@ -1,6 +1,0 @@
-<config>
-  <params group="wrapper">
-    <param name="script_path" type="text" size="60" label="SCRIPT_PATH" description="SCRIPT_PATH_TEXT" />
-    <param name="script_url" type="text" size="60" label="SCRIPT_URL" description="SCRIPT_URL_TEXT" />
-  </params>
-</config>
