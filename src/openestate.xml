@@ -5,8 +5,8 @@
     <author>Andreas Rudolph, Walter Wagner</author>
     <authorEmail>info@openindex.de</authorEmail>
     <authorUrl>http://openestate.org</authorUrl>
-    <copyright>(C) 2010-2014 All rights reserved.</copyright>
-    <license>GNU/GPL3</license>
+    <copyright>(C) 2010-2018 All rights reserved.</copyright>
+    <license>GNU/GPL2</license>
     <version>0.5-SNAPSHOT</version>
     <description>COM_OPENESTATE_DESCRIPTION</description>
     <updateservers>
@@ -47,7 +47,6 @@
         <files folder="admin">
             <filename>controller.php</filename>
             <filename>form.wrapper.xml</filename>
-            <filename>gpl-3.0-standalone.html</filename>
             <filename>index.html</filename>
             <filename>openestate.php</filename>
             <folder>elements</folder>
