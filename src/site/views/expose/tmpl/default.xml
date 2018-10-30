@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="COM_OPENESTATE_EXPOSE_LAYOUT">
+        <message><![CDATA[COM_OPENESTATE_EXPOSE_LAYOUT_TEXT]]></message>
+    </layout>
+    <fields name="params" addfieldpath="/administrator/components/com_openestate/elements">
+        <fieldset name="expose" label="COM_OPENESTATE_EXPOSE_SETUP">
+            <field name="wrapper" type="spacer" label="COM_OPENESTATE_SETUP_WRAPPER"/>
+            <field name="lang" type="language" label="COM_OPENESTATE_LANGUAGE"
+                   description="COM_OPENESTATE_LANGUAGE_TEXT"/>
+            <field name="view" type="list" default="list" label="COM_OPENESTATE_VIEW"
+                   description="COM_OPENESTATE_VIEW_TEXT">
+                <option value="details" selected="selected">COM_OPENESTATE_VIEW_OPTION_DETAILS</option>
+                <option value="texts">COM_OPENESTATE_VIEW_OPTION_DESCRIPTION</option>
+                <option value="gallery">COM_OPENESTATE_VIEW_OPTION_GALLERY</option>
+                <option value="contact">COM_OPENESTATE_VIEW_OPTION_CONTACT</option>
+                <option value="terms">COM_OPENESTATE_VIEW_OPTION_TERMS</option>
+            </field>
+            <field name="id" type="text" default="" label="COM_OPENESTATE_PROPERTYID"
+                   description="COM_OPENESTATE_PROPERTYID_TEXT" size="15"/>
+            <field name="texts" type="spacer" label="COM_OPENESTATE_SETUP_TEXTS"/>
+            <field name="preText" type="textarea" filter="raw" label="COM_OPENESTATE_TEXTS_PRE"
+                   description="COM_OPENESTATE_TEXTS_PRE_TEXT" rows="5" cols="50" width="500"/>
+            <field name="postText" type="textarea" filter="raw" label="COM_OPENESTATE_TEXTS_POST"
+                   description="COM_OPENESTATE_TEXTS_POST_TEXT" rows="5" cols="50"/>
+        </fieldset>
+    </fields>
+</metadata>

@@ -1,8 +1,0 @@
-<config>
-  <params group="wrapper">
-    <param name="script_path" type="text" size="60"
-           label="COM_OPENESTATE_SCRIPT_PATH" description="COM_OPENESTATE_SCRIPT_PATH_TEXT" />
-    <param name="script_url" type="text" size="60"
-           label="COM_OPENESTATE_SCRIPT_URL" description="COM_OPENESTATE_SCRIPT_URL_TEXT" />
-  </params>
-</config>

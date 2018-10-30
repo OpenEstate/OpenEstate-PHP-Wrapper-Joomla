@@ -1,62 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <updates>
-  <update>
-    <name>OpenEstate.org for Joomla 1.6</name>
-    <description>OpenEstate.org component for Joomla 1.6</description>
-    <element>com_openestate</element>
-    <type>component</type>
-    <version>0.4</version>
-    <infourl title="wiki.OpenEstate.org">http://wiki.openestate.org/PHP-Wrapper_-_Joomla</infourl>
-    <downloads>
-      <downloadurl type="full" format="zip">https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla/releases/download/v0.4/com_openestate-joomla25-0.4.zip</downloadurl>
-    </downloads>
-    <maintainer>OpenEstate.org</maintainer>
-    <maintainerurl>http://openestate.org/</maintainerurl>
-    <targetplatform name="joomla" version="1.6" />
-  </update>
+    <update>
+        <name>OpenEstate.org for Joomla 1.6</name>
+        <description>OpenEstate.org component for Joomla 1.6</description>
+        <element>com_openestate</element>
+        <type>component</type>
+        <version>0.4</version>
+        <infourl title="GitHub project page">https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">
+                https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla/releases/download/v0.4/com_openestate-joomla25-0.4.zip
+            </downloadurl>
+        </downloads>
+        <maintainer>OpenEstate.org</maintainer>
+        <maintainerurl>https://openestate.org/</maintainerurl>
+        <targetplatform name="joomla" version="1.6"/>
+    </update>
 
-  <update>
-    <name>OpenEstate.org for Joomla 1.7</name>
-    <description>OpenEstate.org component for Joomla 1.7</description>
-    <element>com_openestate</element>
-    <type>component</type>
-    <version>0.4</version>
-    <infourl title="wiki.OpenEstate.org">http://wiki.openestate.org/PHP-Wrapper_-_Joomla</infourl>
-    <downloads>
-      <downloadurl type="full" format="zip">https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla/releases/download/v0.4/com_openestate-joomla25-0.4.zip</downloadurl>
-    </downloads>
-    <maintainer>OpenEstate.org</maintainer>
-    <maintainerurl>http://openestate.org/</maintainerurl>
-    <targetplatform name="joomla" version="1.7" />
-  </update>
+    <update>
+        <name>OpenEstate.org for Joomla 1.7</name>
+        <description>OpenEstate.org component for Joomla 1.7</description>
+        <element>com_openestate</element>
+        <type>component</type>
+        <version>0.4</version>
+        <infourl title="GitHub project page">https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">
+                https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla/releases/download/v0.4/com_openestate-joomla25-0.4.zip
+            </downloadurl>
+        </downloads>
+        <maintainer>OpenEstate.org</maintainer>
+        <maintainerurl>https://openestate.org/</maintainerurl>
+        <targetplatform name="joomla" version="1.7"/>
+    </update>
 
-  <update>
-    <name>OpenEstate.org for Joomla 2.5</name>
-    <description>OpenEstate.org component for Joomla 2.5</description>
-    <element>com_openestate</element>
-    <type>component</type>
-    <version>0.4</version>
-    <infourl title="wiki.OpenEstate.org">http://wiki.openestate.org/PHP-Wrapper_-_Joomla</infourl>
-    <downloads>
-      <downloadurl type="full" format="zip">https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla/releases/download/v0.4/com_openestate-joomla25-0.4.zip</downloadurl>
-    </downloads>
-    <maintainer>OpenEstate.org</maintainer>
-    <maintainerurl>http://openestate.org/</maintainerurl>
-    <targetplatform name="joomla" version="2.5" />
-  </update>
+    <update>
+        <name>OpenEstate.org for Joomla 2.5</name>
+        <description>OpenEstate.org component for Joomla 2.5</description>
+        <element>com_openestate</element>
+        <type>component</type>
+        <version>0.4</version>
+        <infourl title="GitHub project page">https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">
+                https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla/releases/download/v0.4/com_openestate-joomla25-0.4.zip
+            </downloadurl>
+        </downloads>
+        <maintainer>OpenEstate.org</maintainer>
+        <maintainerurl>https://openestate.org/</maintainerurl>
+        <targetplatform name="joomla" version="2.5"/>
+    </update>
 
-  <update>
-    <name>OpenEstate.org for Joomla 3.0</name>
-    <description>OpenEstate.org component for Joomla 3.0</description>
-    <element>com_openestate</element>
-    <type>component</type>
-    <version>0.4</version>
-    <infourl title="wiki.OpenEstate.org">http://wiki.openestate.org/PHP-Wrapper_-_Joomla</infourl>
-    <downloads>
-      <downloadurl type="full" format="zip">https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla/releases/download/v0.4/com_openestate-joomla30-0.4.zip</downloadurl>
-    </downloads>
-    <maintainer>OpenEstate.org</maintainer>
-    <maintainerurl>http://openestate.org/</maintainerurl>
-    <targetplatform name="joomla" version="3.0" />
-  </update>
+    <update>
+        <name>OpenEstate.org for Joomla 3.x</name>
+        <description>OpenEstate.org component for Joomla 3.x</description>
+        <element>com_openestate</element>
+        <type>component</type>
+        <version>0.4.1</version>
+        <infourl title="GitHub project page">https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">
+                https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla/releases/download/v0.4.1/com_openestate-0.4.1.zip
+            </downloadurl>
+        </downloads>
+        <maintainer>OpenEstate.org</maintainer>
+        <maintainerurl>https://openestate.org/</maintainerurl>
+        <targetplatform name="joomla" version="3.0"/>
+    </update>
 </updates>
