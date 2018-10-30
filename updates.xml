@@ -9,7 +9,7 @@
         <infourl title="GitHub project page">https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla</infourl>
         <downloads>
             <downloadurl type="full" format="zip">
-                https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla/releases/download/v0.4/com_openestate-joomla15-0.4.zip
+                https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla/releases/download/v0.4/com_openestate-joomla25-0.4.zip
             </downloadurl>
         </downloads>
         <maintainer>OpenEstate.org</maintainer>
@@ -26,7 +26,7 @@
         <infourl title="GitHub project page">https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla</infourl>
         <downloads>
             <downloadurl type="full" format="zip">
-                https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla/releases/download/v0.4/com_openestate-joomla15-0.4.zip
+                https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla/releases/download/v0.4/com_openestate-joomla25-0.4.zip
             </downloadurl>
         </downloads>
         <maintainer>OpenEstate.org</maintainer>
@@ -56,11 +56,11 @@
         <description>OpenEstate.org component for Joomla 3.x</description>
         <element>com_openestate</element>
         <type>component</type>
-        <version>0.4</version>
+        <version>0.4.1</version>
         <infourl title="GitHub project page">https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla</infourl>
         <downloads>
             <downloadurl type="full" format="zip">
-                https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla/releases/download/v0.4/com_openestate-joomla30-0.4.zip
+                https://github.com/OpenEstate/OpenEstate-PHP-Wrapper-Joomla/releases/download/v0.4.1/com_openestate-0.4.1.zip
             </downloadurl>
         </downloads>
         <maintainer>OpenEstate.org</maintainer>
