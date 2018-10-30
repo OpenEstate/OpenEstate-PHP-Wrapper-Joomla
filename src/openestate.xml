@@ -7,7 +7,7 @@
     <authorUrl>http://openestate.org</authorUrl>
     <copyright>(C) 2010-2018 OpenEstate.org</copyright>
     <license>GNU/GPL2</license>
-    <version>0.4.1</version>
+    <version>0.5-SNAPSHOT</version>
     <description>COM_OPENESTATE_DESCRIPTION</description>
     <updateservers>
         <server type="extension" priority="1" name="github.com">

@@ -1,5 +1,5 @@
-OpenEstate-PHP-Wrapper for Joomla 0.4.1
-=======================================
+OpenEstate-PHP-Wrapper for Joomla 0.5-SNAPSHOT
+==============================================
 
 This component integrates [*OpenEstate-PHP-Export*](https://github.com/OpenEstate/OpenEstate-PHP-Export) 
 (in **version 1.x**) into a *Joomla* based website. 
@@ -35,6 +35,10 @@ Webseite integriert werden.
 Changelog
 ---------
 
+### 0.5
+
+*not released yet*
+
 ### 0.4.1
 
 -   dropped support for *Joomla* 1.x & 2.x
@@ -42,7 +46,6 @@ Changelog
 -   minor fixes and improvements on the codebase
 -   switched license to GPLv2 or later
 -   tested against the latest version of *Joomla* (3.8.13)
-
 
 ### 0.4
 
